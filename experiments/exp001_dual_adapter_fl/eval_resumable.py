@@ -52,6 +52,11 @@ class ResumableEvaluator:
         )
         freeze_base_model(self.base_model)
         
+        # Set padding side to left for decoder-only models
+        self.tokenizer.padding_side = 'left'
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        
         # System prompts (联合城市身份，激活混合数据训练的知识)
         self.system_prompts = {
             'strict': '你是上海市（户政）与北京市（交管）的联合政务助手。请依据这两个城市严格、规范的管理规定进行回答。对于违规行为，请强调处罚和红线。',
@@ -161,7 +166,12 @@ class ResumableEvaluator:
         logging.info(f"Evaluating {test_name} with {adapter_type}")
         logging.info(f"{'='*80}")
         
-        # Load adapter once for all cases
+        # Load adapter once for all cases (unload previous if exists)
+        if hasattr(self.base_model, 'peft_config'):
+            # Unload previous adapters to avoid conflicts
+            from peft import PeftModel
+            self.base_model = self.base_model.unload()
+        
         lora_config = get_lora_config()
         dual_model = DualAdapterModel(self.base_model, lora_config)
         
