@@ -18,8 +18,8 @@ model:
 
 training:
   num_epochs: 2
-  per_device_train_batch_size: 4
-  gradient_accumulation_steps: 4
+  per_device_train_batch_size: 1  # Reduced from 4 to 1
+  gradient_accumulation_steps: 16  # Increased from 4 to 16 (effective batch size still 16)
   learning_rate: 2.0e-4
   max_seq_length: 1024
   warmup_ratio: 0.1
@@ -28,6 +28,7 @@ training:
   optim: "paged_adamw_8bit"
   logging_steps: 10
   save_strategy: "epoch"
+  gradient_checkpointing: true  # Enable gradient checkpointing to save memory
 
 federated:
   num_rounds: 5

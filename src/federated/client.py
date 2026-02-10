@@ -208,6 +208,12 @@ class ClientTrainer:
         """
         logging.info("Starting training...")
         
+        # Enable gradient checkpointing if configured
+        if self.config['training'].get('gradient_checkpointing', False):
+            dual_model.get_model().enable_input_require_grads()
+            dual_model.get_model().gradient_checkpointing_enable()
+            logging.info("✅ Gradient checkpointing enabled")
+        
         # Create training arguments
         training_args = TrainingArguments(
             output_dir=output_dir,
@@ -224,6 +230,7 @@ class ClientTrainer:
             logging_dir=os.path.join(output_dir, 'logs'),
             report_to=[],  # Disable wandb/tensorboard for now
             remove_unused_columns=False,
+            gradient_checkpointing=self.config['training'].get('gradient_checkpointing', False),
         )
         
         # Create trainer (use default data collator)
