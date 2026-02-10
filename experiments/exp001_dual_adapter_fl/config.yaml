@@ -24,7 +24,7 @@ training:
   max_seq_length: 1024
   warmup_ratio: 0.1
   lr_scheduler_type: "cosine"
-  fp16: true
+  bf16: true  # Changed from fp16 to bf16 to match model dtype
   optim: "paged_adamw_8bit"
   logging_steps: 10
   save_strategy: "epoch"
