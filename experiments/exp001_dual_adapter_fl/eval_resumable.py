@@ -241,17 +241,23 @@ class ResumableEvaluator:
                     eos_token_id=self.tokenizer.eos_token_id
                 )
             
-            # Decode responses
-            responses = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+            # Decode responses (不要 skip_special_tokens，需要用它们来分割)
+            responses = self.tokenizer.batch_decode(outputs, skip_special_tokens=False)
             
             # Process batch results
             for case, response in zip(batch, responses):
                 # Extract assistant's response
-                if "<|im_start|>assistant" in response:
+                # 找到最后一个 <|im_start|>assistant 和 <|im_end|> 之间的内容
+                if "<|im_start|>assistant\n" in response:
+                    response = response.split("<|im_start|>assistant\n")[-1]
+                elif "<|im_start|>assistant" in response:
                     response = response.split("<|im_start|>assistant")[-1]
+                
                 if "<|im_end|>" in response:
                     response = response.split("<|im_end|>")[0]
-                response = response.strip()
+                
+                # 移除其他特殊 token
+                response = response.replace("<|endoftext|>", "").strip()
                 
                 is_correct = self._check_answer_correctness(response, case['output'])
                 
