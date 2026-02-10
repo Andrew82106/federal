@@ -26,7 +26,7 @@ def main():
     # Setup logging
     log_dir = project_root / "results" / "exp001_dual_adapter_fl" / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
-    setup_logger(log_file=str(log_dir / "quick_evaluation.log"))
+    setup_logger(log_dir=str(log_dir), experiment_name="quick_evaluation")
     
     # Load config
     config_path = Path(__file__).parent / "config.yaml"

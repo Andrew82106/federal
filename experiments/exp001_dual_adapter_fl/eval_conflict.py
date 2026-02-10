@@ -22,7 +22,7 @@ def main():
     """Run conflict evaluation with keyword-based matching."""
     
     # Setup logging
-    setup_logger(log_file="results/exp001_dual_adapter_fl/logs/conflict_eval.log")
+    setup_logger(log_dir="results/exp001_dual_adapter_fl/logs", experiment_name="conflict_eval")
     
     # Load config
     config_path = Path(__file__).parent / "config.yaml"
