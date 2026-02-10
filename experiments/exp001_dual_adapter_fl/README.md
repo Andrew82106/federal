@@ -113,56 +113,163 @@ The system automatically detects VRAM and enables quantization if needed.
 
 ## Evaluation
 
-### Conflict Testing with Keyword Matching
+After training completes, run comprehensive evaluation on four test sets.
 
-The experiment includes an enhanced evaluation method that uses **keyword-based matching** instead of expensive LLM judges. This provides:
-
-- **Fast evaluation**: Millisecond-level keyword matching vs. seconds per LLM call
-- **Deterministic results**: No randomness from LLM judges
-- **Cost-effective**: No API costs or GPU inference overhead
-
-#### Run Conflict Evaluation
+### Quick Start
 
 ```bash
-# Quick test on 10 cases
-python experiments/exp001_dual_adapter_fl/eval_conflict.py
+# 1. Verify setup (recommended first step)
+python scripts/quick_eval.py
 
-# Full evaluation (edit script to set num_test_cases = len(test_cases))
-python experiments/exp001_dual_adapter_fl/eval_conflict.py
+# 2. Quick evaluation on subset (5 cases per set)
+python experiments/exp001_dual_adapter_fl/eval_quick.py
+
+# 3. Full evaluation (all test cases)
+python experiments/exp001_dual_adapter_fl/eval.py
 ```
 
-#### How It Works
+### Four Test Sets
 
-Each test case in `data/test/conflict_cases.json` includes an `evaluation_guide`:
+The evaluation covers four distinct test sets, each serving a specific purpose:
 
-```json
-{
-  "instruction": "我大专学历，无社保，能落户吗？",
-  "evaluation_guide": {
-    "strict_keywords": ["拒绝", "积分", "不达标"],
-    "service_keywords": ["可以", "零门槛", "即时办"]
-  }
+#### 1. Test-G (global_test.json) - Universal Knowledge Retention
+
+**Purpose**: Verify that universal law knowledge is retained across all adapters
+
+**Expected Results**:
+- All adapters (Global Only, Strict, Service) should achieve high accuracy (>80%)
+- Demonstrates that local adapters don't cause catastrophic forgetting
+
+**Metrics**: Accuracy on national laws (道路交通安全法, 居住证条例)
+
+#### 2. Test-A (strict_test.json) - Strict City Policy Memory
+
+**Purpose**: Test local policy memory and privacy isolation
+
+**Expected Results**:
+- **Strict Adapter**: High accuracy (>80%) - knows Shanghai policies
+- **Service Adapter**: Low accuracy (<30%) - doesn't know Shanghai policies
+
+**Key Insight**: The accuracy gap proves **privacy isolation** - Service city's data never leaked to Strict city
+
+**Metrics**: Accuracy on Shanghai-specific policies (积分落户, 严管电动车)
+
+#### 3. Test-B (service_test.json) - Service City Policy Memory
+
+**Purpose**: Test local policy memory and privacy isolation (reverse direction)
+
+**Expected Results**:
+- **Service Adapter**: High accuracy (>80%) - knows Shijiazhuang policies
+- **Strict Adapter**: Low accuracy (<30%) - doesn't know Shijiazhuang policies
+
+**Key Insight**: The accuracy gap proves **privacy isolation** - Strict city's data never leaked to Service city
+
+**Metrics**: Accuracy on Shijiazhuang-specific policies (零门槛落户, 以学代罚)
+
+#### 4. Conflict Test (conflict_cases.json) - Non-IID Conflict Resolution
+
+**Purpose**: Test model's ability to provide different answers based on city identity
+
+**Expected Results**:
+- Same question should get different answers with different adapters
+- Strict Adapter: Should exhibit "STRICT_BEHAVIOR" (拒绝, 积分, 罚款1000元)
+- Service Adapter: Should exhibit "SERVICE_BEHAVIOR" (可以, 零门槛, 罚款20元)
+
+**Key Insight**: Pass rate measures **conflict resolution capability**
+
+**Metrics**: Pass rate (% of cases where model correctly exhibits city-specific behavior)
+
+### Evaluation Method: Keyword Matching
+
+The evaluation uses **keyword-based matching** instead of expensive LLM judges:
+
+**Advantages**:
+- ⚡ **1000x faster**: Millisecond-level vs. seconds per LLM call
+- 💵 **Zero cost**: No API fees or GPU inference overhead
+- ✅ **Deterministic**: Same input always gives same result
+- 🎯 **Precise**: Directly checks policy keywords
+
+**How It Works**:
+
+For Test-G, Test-A, Test-B:
+```python
+# Extract key terms from expected answer
+# Check if those terms appear in model response
+# Calculate accuracy based on keyword overlap
+```
+
+For Conflict Test:
+```python
+# Check which keywords appear in response
+strict_keywords = ["拒绝", "积分", "罚款1000元"]
+service_keywords = ["可以", "零门槛", "罚款20元"]
+
+# Classify behavior
+if only strict_keywords found: "STRICT_BEHAVIOR"
+if only service_keywords found: "SERVICE_BEHAVIOR"
+if both found: "AMBIGUOUS"
+if neither found: "NO_MATCH"
+```
+
+### System Prompt Injection
+
+**Critical**: The evaluation automatically injects city-specific system prompts:
+
+```python
+system_prompts = {
+    'strict': '你是上海市公安局的政务助手，请根据上海市的政策回答问题。',
+    'service': '你是石家庄市公安局的政务助手，请根据石家庄市的政策回答问题。',
+    'global': '你是公安政务助手，请根据国家法律法规回答问题。'
 }
 ```
 
-The evaluator:
-1. Generates responses with different local adapters
-2. Checks which keywords appear in each response
-3. Classifies behavior as: `STRICT_BEHAVIOR`, `SERVICE_BEHAVIOR`, `AMBIGUOUS`, or `NO_MATCH`
-4. Compares with expected behavior for each adapter
+This ensures the model knows which city's policies to apply.
 
-#### Evaluation Metrics
+### Understanding Results
 
-- **Pass Rate**: Percentage of cases where model exhibits correct city-specific behavior
-- **Ambiguous**: Cases where response contains keywords from both cities
-- **No Match**: Cases where no expected keywords are found
+#### Example Output
 
-### Standard Evaluation
-
-```bash
-# Run full evaluation suite
-python experiments/exp001_dual_adapter_fl/eval.py
 ```
+📚 Test-G: Universal Law Knowledge Retention
+   Global Only:    85.2%
+   Strict Adapter: 83.7%
+   Service Adapter: 84.1%
+
+🔒 Test-A: Strict City Policy Memory
+   Strict Adapter:  87.3% ✅
+   Service Adapter: 23.1% (cross-test)
+   Privacy Gap: +64.2% (higher is better)
+
+🤝 Test-B: Service City Policy Memory
+   Service Adapter: 89.5% ✅
+   Strict Adapter:  19.8% (cross-test)
+   Privacy Gap: +69.7% (higher is better)
+
+⚔️  Conflict Test: Non-IID Conflict Resolution
+   Pass Rate: 78.4%
+   Passed: 163/208
+   Ambiguous: 32
+   No Match: 13
+```
+
+#### Key Metrics
+
+- **Universal Knowledge Retained**: Should be >80% on Test-G
+- **Privacy Isolation**: Gap between own-city and cross-city accuracy (higher is better)
+- **Conflict Resolution**: Pass rate on conflict test (higher is better)
+
+#### What Good Results Look Like
+
+✅ **Success Indicators**:
+- Test-G accuracy >80% (knowledge retained)
+- Privacy gap >50% (strong isolation)
+- Conflict pass rate >70% (good conflict resolution)
+
+❌ **Warning Signs**:
+- Test-G accuracy <60% (catastrophic forgetting)
+- Privacy gap <30% (weak isolation, possible data leakage)
+- Conflict pass rate <50% (poor conflict resolution)
+- High "Ambiguous" count (model confused about city identity)
 
 ## Next Steps
 
