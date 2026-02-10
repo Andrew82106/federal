@@ -510,11 +510,16 @@ class ConflictTester:
                         eos_token_id=self.tokenizer.eos_token_id
                     )
                 
-                # Decode responses
-                batch_responses = self.tokenizer.batch_decode(outputs, skip_special_tokens=False)
+                # Decode responses - only decode the generated part (skip input)
+                # outputs contains [input_ids + generated_ids], we only want generated part
+                input_lengths = inputs['attention_mask'].sum(dim=1)
                 
-                # Extract assistant responses
-                for response in batch_responses:
+                for idx, (output, input_len) in enumerate(zip(outputs, input_lengths)):
+                    # Skip the input tokens, only decode generated tokens
+                    generated_tokens = output[input_len:]
+                    response = self.tokenizer.decode(generated_tokens, skip_special_tokens=False)
+                    
+                    # Clean up special tokens
                     if "<|im_start|>assistant\n" in response:
                         response = response.split("<|im_start|>assistant\n")[-1]
                     elif "<|im_start|>assistant" in response:
