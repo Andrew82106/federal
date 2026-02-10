@@ -419,6 +419,8 @@ class ConflictTester:
         Returns:
             Aggregated test results with behavior classification
         """
+        from tqdm import tqdm  # Import here to add progress bar
+        
         logging.info(f"\n{'='*80}")
         logging.info(f"Running Guided Conflict Test Suite ({len(test_cases)} cases)")
         logging.info(f"{'='*80}")
@@ -432,8 +434,8 @@ class ConflictTester:
             'cases': []
         }
         
-        for i, test_case in enumerate(test_cases, 1):
-            logging.info(f"\n--- Test Case {i}/{len(test_cases)} ---")
+        for i, test_case in enumerate(tqdm(test_cases, desc="Conflict Test"), 1):
+            # logging.info(f"\n--- Test Case {i}/{len(test_cases)} ---")  # Comment out to reduce log spam
             
             case_result = self.test_conflict_with_guide(
                 question=test_case['instruction'],
