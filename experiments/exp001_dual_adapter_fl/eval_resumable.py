@@ -320,9 +320,10 @@ class ResumableEvaluator:
     
     def evaluate_conflict_cases(
         self,
-        test_cases: List[Dict]
+        test_cases: List[Dict],
+        batch_size: int = 8
     ) -> Dict[str, Any]:
-        """Evaluate conflict cases with checkpoint support."""
+        """Evaluate conflict cases with checkpoint support and batch inference."""
         
         checkpoint_file = self.checkpoint_dir / "conflict_test.json"
         if checkpoint_file.exists():
@@ -343,7 +344,8 @@ class ResumableEvaluator:
         results = tester.run_guided_test_suite(
             test_cases=test_cases,
             local_adapter_paths=self.local_adapter_paths,
-            system_prompts=self.system_prompts
+            system_prompts=self.system_prompts,
+            batch_size=batch_size
         )
         
         # Save checkpoint
