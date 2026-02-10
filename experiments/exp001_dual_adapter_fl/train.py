@@ -71,8 +71,15 @@ def main():
     # Log configuration
     log_experiment_config(logger, config)
     
+    logger.info("Creating FLRunner...")
+    import sys
+    sys.stdout.flush()
+    
     # Create FL runner
     runner = FLRunner(config)
+    
+    logger.info("FLRunner created successfully, starting experiment...")
+    sys.stdout.flush()
     
     # Run experiment
     try:
