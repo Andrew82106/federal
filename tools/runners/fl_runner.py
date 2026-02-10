@@ -65,6 +65,10 @@ class FLRunner:
         """
         import sys
         
+        print("\n" + "=" * 80, flush=True)
+        print("🚀🚀🚀 run_experiment() METHOD STARTED 🚀🚀🚀", flush=True)
+        print("=" * 80 + "\n", flush=True)
+        
         logging.info("🚀 run_experiment() method called!")
         sys.stdout.flush()
         sys.stderr.flush()
