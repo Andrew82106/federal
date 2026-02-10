@@ -79,7 +79,28 @@ class FLRunner:
         }
         
         # Run federated learning rounds
-        for round_num in range(1, num_rounds + 1):
+        # Check for existing checkpoints to resume from
+        start_round = 1
+        checkpoints_dir = os.path.join(output_dir, 'checkpoints')
+        if os.path.exists(checkpoints_dir):
+            existing_rounds = []
+            for item in os.listdir(checkpoints_dir):
+                if item.startswith('round_') and os.path.isdir(os.path.join(checkpoints_dir, item)):
+                    try:
+                        round_num = int(item.split('_')[1])
+                        # Check if this round is complete (has manifest.json)
+                        manifest_path = os.path.join(checkpoints_dir, item, 'manifest.json')
+                        if os.path.exists(manifest_path):
+                            existing_rounds.append(round_num)
+                    except (ValueError, IndexError):
+                        continue
+            
+            if existing_rounds:
+                start_round = max(existing_rounds) + 1
+                logging.info(f"📂 Found existing checkpoints up to Round {max(existing_rounds)}")
+                logging.info(f"🔄 Resuming from Round {start_round}")
+        
+        for round_num in range(start_round, num_rounds + 1):
             round_result = self.run_round(round_num)
             results['rounds'].append(round_result)
         
