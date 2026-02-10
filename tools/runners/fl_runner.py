@@ -205,6 +205,15 @@ class FLRunner:
                 'global': global_path,
                 'local': local_path
             }
+            
+            # Force garbage collection and clear CUDA cache after each client
+            import gc
+            import torch
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                torch.cuda.synchronize()
+                logging.info(f"✅ Cleared CUDA cache after client '{client_id}'")
         
         return client_adapters
     
