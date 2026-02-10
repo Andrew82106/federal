@@ -482,7 +482,7 @@ def main():
     logging.info("CONFLICT TEST")
     logging.info("="*80)
     
-    all_results['conflict'] = evaluator.evaluate_conflict_cases(conflict_cases)
+    all_results['conflict'] = evaluator.evaluate_conflict_cases(conflict_cases, batch_size=args.batch_size)
     
     # Save final results
     output_dir = results_dir / "metrics"
