@@ -86,7 +86,7 @@ class ComprehensiveEvaluator:
         question: str,
         adapter_type: str,
         local_adapter_name: str = None,
-        max_new_tokens: int = 256
+        max_new_tokens: int = 128  # 减少生成长度：256->128
     ) -> str:
         """
         Generate response with specified adapter configuration.

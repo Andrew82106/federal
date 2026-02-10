@@ -80,7 +80,7 @@ class ResumableEvaluator:
         self,
         question: str,
         adapter_type: str,
-        max_new_tokens: int = 256
+        max_new_tokens: int = 128  # 减少生成长度：256->128
     ) -> str:
         """Generate response with specified adapter."""
         lora_config = get_lora_config()
