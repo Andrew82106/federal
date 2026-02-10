@@ -95,11 +95,15 @@ class ClientTrainer:
         )
         
         # Save adapters
-        global_save_path = os.path.join(output_dir, "global_adapter")
-        local_save_path = os.path.join(output_dir, "local_adapter")
+        # Note: save_pretrained will create a subdirectory with adapter name
+        # So we save to output_dir, and it will create global/ and local/ subdirs
+        # Then we return the path to those subdirs for aggregation
+        self.dual_adapter_model.save_adapter("global", output_dir)
+        self.dual_adapter_model.save_adapter("local", output_dir)
         
-        self.dual_adapter_model.save_adapter("global", global_save_path)
-        self.dual_adapter_model.save_adapter("local", local_save_path)
+        # The actual saved paths (PEFT creates subdirectories)
+        global_save_path = os.path.join(output_dir, "global")
+        local_save_path = os.path.join(output_dir, "local")
         
         # Clean up ALL models and free memory
         del self.dual_adapter_model
