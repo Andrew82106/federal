@@ -101,9 +101,17 @@ class ClientTrainer:
         self.dual_adapter_model.save_adapter("global", global_save_path)
         self.dual_adapter_model.save_adapter("local", local_save_path)
         
-        # Clean up model and free memory
+        # Clean up ALL models and free memory
         del self.dual_adapter_model
         self.dual_adapter_model = None
+        
+        # Also delete base model and tokenizer to free memory
+        if self.base_model is not None:
+            del self.base_model
+            self.base_model = None
+        if self.tokenizer is not None:
+            del self.tokenizer
+            self.tokenizer = None
         
         # Force garbage collection and clear CUDA cache
         import gc
@@ -111,7 +119,7 @@ class ClientTrainer:
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
             torch.cuda.synchronize()
-            logging.info("✅ Cleared CUDA cache after training")
+            logging.info("✅ Cleared CUDA cache and freed all models after training")
         
         logging.info(f"✅ Client '{self.client_id}' completed round {round_num}")
         
