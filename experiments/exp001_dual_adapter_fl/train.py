@@ -81,6 +81,10 @@ def main():
     logger.info("FLRunner created successfully, starting experiment...")
     sys.stdout.flush()
     
+    print("=" * 80, flush=True)
+    print("DEBUG: About to call runner.run_experiment()", flush=True)
+    print("=" * 80, flush=True)
+    
     # Run experiment
     try:
         results = runner.run_experiment()
