@@ -80,7 +80,7 @@ class ResumableEvaluator:
         self,
         question: str,
         adapter_type: str,
-        max_new_tokens: int = 128  # 减少生成长度：256->128
+        max_new_tokens: int = 256
     ) -> str:
         """Generate response with specified adapter."""
         lora_config = get_lora_config()
@@ -145,9 +145,10 @@ class ResumableEvaluator:
         self,
         test_name: str,
         test_cases: List[Dict],
-        adapter_type: str
+        adapter_type: str,
+        batch_size: int = 4  # 批量推理加速
     ) -> Dict[str, Any]:
-        """Evaluate on test set with checkpoint support."""
+        """Evaluate on test set with checkpoint support and batch inference."""
         
         # Check for existing checkpoint
         checkpoint = self.load_checkpoint(test_name, adapter_type)
@@ -160,30 +161,99 @@ class ResumableEvaluator:
         logging.info(f"Evaluating {test_name} with {adapter_type}")
         logging.info(f"{'='*80}")
         
+        # Load adapter once for all cases
+        lora_config = get_lora_config()
+        dual_model = DualAdapterModel(self.base_model, lora_config)
+        
+        if adapter_type == 'global_only':
+            dual_model.add_global_adapter(
+                adapter_name="global",
+                adapter_path=self.global_adapter_path
+            )
+            dual_model.set_active_adapters(["global"])
+            system_prompt = self.system_prompts['global']
+        else:
+            dual_model.add_global_adapter(
+                adapter_name="global",
+                adapter_path=self.global_adapter_path
+            )
+            dual_model.add_local_adapter(
+                adapter_name="local",
+                adapter_path=self.local_adapter_paths[adapter_type]
+            )
+            dual_model.set_active_adapters(["global", "local"])
+            system_prompt = self.system_prompts[adapter_type]
+        
+        model = dual_model.get_model()
+        model.eval()
+        
         correct = 0
         total = len(test_cases)
         results = []
         
-        for case in tqdm(test_cases, desc=f"{test_name}-{adapter_type}"):
-            question = case['instruction']
-            expected_output = case['output']
+        # Batch processing
+        for i in tqdm(range(0, total, batch_size), desc=f"{test_name}-{adapter_type}"):
+            batch = test_cases[i:i+batch_size]
             
-            response = self.generate_response(
-                question=question,
-                adapter_type=adapter_type
+            # Prepare batch prompts
+            prompts = []
+            for case in batch:
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": case['instruction']}
+                ]
+                prompt = self.tokenizer.apply_chat_template(
+                    messages,
+                    tokenize=False,
+                    add_generation_prompt=True
+                )
+                prompts.append(prompt)
+            
+            # Tokenize batch with padding
+            inputs = self.tokenizer(
+                prompts,
+                return_tensors="pt",
+                padding=True,
+                truncation=True,
+                max_length=2048
             )
             
-            is_correct = self._check_answer_correctness(response, expected_output)
+            if torch.cuda.is_available():
+                inputs = {k: v.cuda() for k, v in inputs.items()}
             
-            if is_correct:
-                correct += 1
+            # Generate batch
+            with torch.no_grad():
+                outputs = model.generate(
+                    **inputs,
+                    max_new_tokens=256,
+                    do_sample=False,
+                    pad_token_id=self.tokenizer.pad_token_id,
+                    eos_token_id=self.tokenizer.eos_token_id
+                )
             
-            results.append({
-                'question': question,
-                'expected': expected_output,
-                'response': response,
-                'correct': is_correct
-            })
+            # Decode responses
+            responses = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+            
+            # Process batch results
+            for case, response in zip(batch, responses):
+                # Extract assistant's response
+                if "<|im_start|>assistant" in response:
+                    response = response.split("<|im_start|>assistant")[-1]
+                if "<|im_end|>" in response:
+                    response = response.split("<|im_end|>")[0]
+                response = response.strip()
+                
+                is_correct = self._check_answer_correctness(response, case['output'])
+                
+                if is_correct:
+                    correct += 1
+                
+                results.append({
+                    'question': case['instruction'],
+                    'expected': case['output'],
+                    'response': response,
+                    'correct': is_correct
+                })
         
         accuracy = correct / total if total > 0 else 0
         
@@ -293,6 +363,11 @@ def print_summary(results: Dict[str, Any]):
 def main():
     """Main evaluation entry point."""
     
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch_size', type=int, default=8, help='Batch size for inference (default: 8)')
+    args = parser.parse_args()
+    
     # Setup logging
     log_dir = project_root / "results" / "exp001_dual_adapter_fl" / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -345,9 +420,9 @@ def main():
     logging.info("="*80)
     
     all_results['test_g'] = {
-        'global_only': evaluator.evaluate_test_set('test_g', global_test, 'global_only'),
-        'strict': evaluator.evaluate_test_set('test_g', global_test, 'strict'),
-        'service': evaluator.evaluate_test_set('test_g', global_test, 'service')
+        'global_only': evaluator.evaluate_test_set('test_g', global_test, 'global_only', batch_size=args.batch_size),
+        'strict': evaluator.evaluate_test_set('test_g', global_test, 'strict', batch_size=args.batch_size),
+        'service': evaluator.evaluate_test_set('test_g', global_test, 'service', batch_size=args.batch_size)
     }
     
     # Test-A
@@ -356,8 +431,8 @@ def main():
     logging.info("="*80)
     
     all_results['test_a'] = {
-        'strict': evaluator.evaluate_test_set('test_a', strict_test, 'strict'),
-        'service': evaluator.evaluate_test_set('test_a', strict_test, 'service')
+        'strict': evaluator.evaluate_test_set('test_a', strict_test, 'strict', batch_size=args.batch_size),
+        'service': evaluator.evaluate_test_set('test_a', strict_test, 'service', batch_size=args.batch_size)
     }
     
     # Test-B
@@ -366,8 +441,8 @@ def main():
     logging.info("="*80)
     
     all_results['test_b'] = {
-        'service': evaluator.evaluate_test_set('test_b', service_test, 'service'),
-        'strict': evaluator.evaluate_test_set('test_b', service_test, 'strict')
+        'service': evaluator.evaluate_test_set('test_b', service_test, 'service', batch_size=args.batch_size),
+        'strict': evaluator.evaluate_test_set('test_b', service_test, 'strict', batch_size=args.batch_size)
     }
     
     # Conflict Test
