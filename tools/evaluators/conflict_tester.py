@@ -47,6 +47,11 @@ class ConflictTester:
         )
         freeze_base_model(self.base_model)
         
+        # Set padding side to left for decoder-only models
+        self.tokenizer.padding_side = 'left'
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+        
         logging.info("✅ ConflictTester initialized")
     
     def test_conflict_case(
