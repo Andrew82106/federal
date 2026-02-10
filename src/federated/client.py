@@ -101,6 +101,18 @@ class ClientTrainer:
         self.dual_adapter_model.save_adapter("global", global_save_path)
         self.dual_adapter_model.save_adapter("local", local_save_path)
         
+        # Clean up model and free memory
+        del self.dual_adapter_model
+        self.dual_adapter_model = None
+        
+        # Force garbage collection and clear CUDA cache
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.synchronize()
+            logging.info("✅ Cleared CUDA cache after training")
+        
         logging.info(f"✅ Client '{self.client_id}' completed round {round_num}")
         
         return global_save_path, local_save_path
