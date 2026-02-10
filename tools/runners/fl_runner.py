@@ -63,6 +63,8 @@ class FLRunner:
         Returns:
             Dictionary with experiment results
         """
+        import sys
+        
         num_rounds = self.config['federated']['num_rounds']
         output_dir = self.config['experiment']['output_dir']
         
@@ -72,6 +74,8 @@ class FLRunner:
         logging.info(f"Rounds: {num_rounds}")
         logging.info(f"Clients: {len(self.clients)}")
         logging.info("=" * 80)
+        sys.stdout.flush()  # Force flush
+        sys.stderr.flush()
         
         results = {
             'rounds': [],
@@ -83,6 +87,9 @@ class FLRunner:
         start_round = 1
         checkpoints_dir = os.path.join(output_dir, 'checkpoints')
         logging.info(f"Checking for existing checkpoints in: {checkpoints_dir}")
+        import sys
+        sys.stdout.flush()
+        sys.stderr.flush()
         
         if os.path.exists(checkpoints_dir):
             existing_rounds = []
