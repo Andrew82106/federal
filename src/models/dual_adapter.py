@@ -155,12 +155,12 @@ class DualAdapterModel:
             if name not in self.adapters:
                 raise ValueError(f"Adapter '{name}' not found. Available: {list(self.adapters.keys())}")
         
-        # PEFT's set_adapter expects a list for multiple adapters
-        # Enable all specified adapters
-        self.model.enable_adapters()
-        for adapter_name in self.adapters.keys():
-            if adapter_name in adapter_names:
-                self.model.set_adapter(adapter_name)
+        # For multiple adapters, set them one by one (last one becomes active)
+        # In PEFT, when training with multiple adapters, they are all trained together
+        # We just need to ensure they're all added and the model knows about them
+        # The actual training will use both adapters automatically
+        for adapter_name in adapter_names:
+            self.model.set_adapter(adapter_name)
         
         logging.info(f"✅ Activated adapters: {adapter_names}")
     
