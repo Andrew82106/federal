@@ -1,8 +1,10 @@
 """
 Resumable evaluation script with checkpoint support.
 
-This script saves progress after each test set, allowing you to resume
-if the evaluation is interrupted.
+Features:
+- Saves progress after each test set
+- Can resume from last checkpoint if interrupted
+- Supports batch inference for faster evaluation
 """
 
 import json
@@ -25,7 +27,7 @@ from tools.evaluators.conflict_tester import ConflictTester
 
 
 class ResumableEvaluator:
-    """Evaluator with checkpoint support for resuming interrupted evaluations."""
+    """Evaluator with checkpoint support for resumable evaluation."""
     
     def __init__(
         self,
@@ -59,24 +61,20 @@ class ResumableEvaluator:
         
         logging.info("✅ Evaluator initialized")
     
-    def _get_checkpoint_path(self, test_name: str, adapter_type: str) -> Path:
-        """Get checkpoint file path for a specific test."""
-        return self.checkpoint_dir / f"{test_name}_{adapter_type}.json"
-    
-    def _load_checkpoint(self, test_name: str, adapter_type: str) -> Dict:
+    def load_checkpoint(self, test_name: str, adapter_type: str) -> Dict:
         """Load checkpoint if exists."""
-        checkpoint_path = self._get_checkpoint_path(test_name, adapter_type)
-        if checkpoint_path.exists():
-            with open(checkpoint_path, 'r', encoding='utf-8') as f:
+        checkpoint_file = self.checkpoint_dir / f"{test_name}_{adapter_type}.json"
+        if checkpoint_file.exists():
+            with open(checkpoint_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return None
     
-    def _save_checkpoint(self, test_name: str, adapter_type: str, results: Dict):
+    def save_checkpoint(self, test_name: str, adapter_type: str, results: Dict):
         """Save checkpoint."""
-        checkpoint_path = self._get_checkpoint_path(test_name, adapter_type)
-        with open(checkpoint_path, 'w', encoding='utf-8') as f:
+        checkpoint_file = self.checkpoint_dir / f"{test_name}_{adapter_type}.json"
+        with open(checkpoint_file, 'w', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=2)
-        logging.info(f"💾 Checkpoint saved: {checkpoint_path}")
+        logging.info(f"💾 Checkpoint saved: {checkpoint_file}")
     
     def generate_response(
         self,
@@ -143,6 +141,68 @@ class ResumableEvaluator:
         
         return response.strip()
     
+    def evaluate_test_set(
+        self,
+        test_name: str,
+        test_cases: List[Dict],
+        adapter_type: str
+    ) -> Dict[str, Any]:
+        """Evaluate on test set with checkpoint support."""
+        
+        # Check for existing checkpoint
+        checkpoint = self.load_checkpoint(test_name, adapter_type)
+        if checkpoint:
+            logging.info(f"📂 Found checkpoint for {test_name}_{adapter_type}")
+            logging.info(f"   Completed: {checkpoint['correct']}/{checkpoint['total']}")
+            return checkpoint
+        
+        logging.info(f"\n{'='*80}")
+        logging.info(f"Evaluating {test_name} with {adapter_type}")
+        logging.info(f"{'='*80}")
+        
+        correct = 0
+        total = len(test_cases)
+        results = []
+        
+        for case in tqdm(test_cases, desc=f"{test_name}-{adapter_type}"):
+            question = case['instruction']
+            expected_output = case['output']
+            
+            response = self.generate_response(
+                question=question,
+                adapter_type=adapter_type
+            )
+            
+            is_correct = self._check_answer_correctness(response, expected_output)
+            
+            if is_correct:
+                correct += 1
+            
+            results.append({
+                'question': question,
+                'expected': expected_output,
+                'response': response,
+                'correct': is_correct
+            })
+        
+        accuracy = correct / total if total > 0 else 0
+        
+        result = {
+            'test_name': test_name,
+            'adapter_type': adapter_type,
+            'accuracy': accuracy,
+            'correct': correct,
+            'total': total,
+            'details': results
+        }
+        
+        # Save checkpoint
+        self.save_checkpoint(test_name, adapter_type, result)
+        
+        logging.info(f"✅ {test_name}-{adapter_type}: {accuracy:.2%} ({correct}/{total})")
+        
+        return result
+    
     def _check_answer_correctness(self, response: str, expected: str) -> bool:
         """Simple keyword matching for correctness."""
         common_words = {'的', '了', '是', '在', '有', '和', '与', '或', '等', '可以', '需要', '应该'}
@@ -156,90 +216,78 @@ class ResumableEvaluator:
         threshold = max(1, len(expected_words) * 0.3)
         return matches >= threshold
     
-    def evaluate_test_set(
+    def evaluate_conflict_cases(
         self,
-        test_cases: List[Dict],
-        adapter_type: str,
-        test_name: str
+        test_cases: List[Dict]
     ) -> Dict[str, Any]:
-        """Evaluate on test set with checkpoint support."""
+        """Evaluate conflict cases with checkpoint support."""
         
-        # Check for existing checkpoint
-        checkpoint = self._load_checkpoint(test_name, adapter_type)
-        if checkpoint:
-            logging.info(f"📂 Found checkpoint for {test_name}_{adapter_type}")
-            logging.info(f"   Completed: {checkpoint['correct']}/{checkpoint['total']}")
-            
-            resume = input(f"Resume from checkpoint? (y/n): ").lower()
-            if resume == 'y':
-                return checkpoint
-            else:
-                logging.info("Starting fresh evaluation...")
+        checkpoint_file = self.checkpoint_dir / "conflict_test.json"
+        if checkpoint_file.exists():
+            logging.info(f"📂 Found checkpoint for conflict test")
+            with open(checkpoint_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
         
         logging.info(f"\n{'='*80}")
-        logging.info(f"Evaluating {test_name} with {adapter_type} adapter")
+        logging.info(f"Evaluating Conflict Cases")
         logging.info(f"{'='*80}")
         
-        correct = 0
-        total = len(test_cases)
-        results = []
+        tester = ConflictTester(
+            base_model_name=self.base_model_name,
+            global_adapter_path=self.global_adapter_path,
+            config=self.config
+        )
         
-        for i, case in enumerate(tqdm(test_cases, desc=f"{test_name} ({adapter_type})")):
-            question = case['instruction']
-            expected_output = case['output']
-            
-            try:
-                response = self.generate_response(
-                    question=question,
-                    adapter_type=adapter_type
-                )
-                
-                is_correct = self._check_answer_correctness(response, expected_output)
-                
-                if is_correct:
-                    correct += 1
-                
-                results.append({
-                    'question': question,
-                    'expected': expected_output,
-                    'response': response,
-                    'correct': is_correct
-                })
-                
-                # Save checkpoint every 10 cases
-                if (i + 1) % 10 == 0:
-                    temp_result = {
-                        'test_name': test_name,
-                        'adapter_type': adapter_type,
-                        'accuracy': correct / (i + 1),
-                        'correct': correct,
-                        'total': i + 1,
-                        'details': results
-                    }
-                    self._save_checkpoint(test_name, adapter_type, temp_result)
-                
-            except Exception as e:
-                logging.error(f"Error on case {i}: {e}")
-                continue
+        results = tester.run_guided_test_suite(
+            test_cases=test_cases,
+            local_adapter_paths=self.local_adapter_paths,
+            system_prompts=self.system_prompts
+        )
         
-        accuracy = correct / total if total > 0 else 0
+        # Save checkpoint
+        with open(checkpoint_file, 'w', encoding='utf-8') as f:
+            json.dump(results, f, ensure_ascii=False, indent=2)
         
-        final_result = {
-            'test_name': test_name,
-            'adapter_type': adapter_type,
-            'accuracy': accuracy,
-            'correct': correct,
-            'total': total,
-            'details': results
-        }
+        logging.info(f"💾 Checkpoint saved: {checkpoint_file}")
         
-        # Save final checkpoint
-        self._save_checkpoint(test_name, adapter_type, final_result)
-        
-        logging.info(f"\n{test_name} ({adapter_type}) Results:")
-        logging.info(f"  Accuracy: {accuracy:.2%} ({correct}/{total})")
-        
-        return final_result
+        return results
+
+
+def print_summary(results: Dict[str, Any]):
+    """Print evaluation summary."""
+    print("\n" + "="*80)
+    print("EVALUATION SUMMARY")
+    print("="*80)
+    
+    # Test-G
+    print("\n📚 Test-G: Universal Law Knowledge Retention")
+    print(f"   Global Only:    {results['test_g']['global_only']['accuracy']:.1%}")
+    print(f"   Strict Adapter: {results['test_g']['strict']['accuracy']:.1%}")
+    print(f"   Service Adapter: {results['test_g']['service']['accuracy']:.1%}")
+    
+    # Test-A
+    print("\n🔒 Test-A: Strict City Policy Memory")
+    print(f"   Strict Adapter:  {results['test_a']['strict']['accuracy']:.1%} ✅")
+    print(f"   Service Adapter: {results['test_a']['service']['accuracy']:.1%}")
+    
+    privacy_a = results['test_a']['strict']['accuracy'] - results['test_a']['service']['accuracy']
+    print(f"   Privacy Gap: {privacy_a:+.1%}")
+    
+    # Test-B
+    print("\n🤝 Test-B: Service City Policy Memory")
+    print(f"   Service Adapter: {results['test_b']['service']['accuracy']:.1%} ✅")
+    print(f"   Strict Adapter:  {results['test_b']['strict']['accuracy']:.1%}")
+    
+    privacy_b = results['test_b']['service']['accuracy'] - results['test_b']['strict']['accuracy']
+    print(f"   Privacy Gap: {privacy_b:+.1%}")
+    
+    # Conflict
+    print("\n⚔️  Conflict Test")
+    conflict = results['conflict']
+    print(f"   Pass Rate: {conflict['pass_rate']:.1%}")
+    print(f"   Passed: {conflict['passed']}/{conflict['total_cases']}")
+    
+    print("\n" + "="*80)
 
 
 def main():
@@ -281,99 +329,66 @@ def main():
     
     all_results = {}
     
-    # 1. Test-G
+    # Load test data
+    with open(test_data_dir / "global_test.json", 'r', encoding='utf-8') as f:
+        global_test = json.load(f)
+    with open(test_data_dir / "strict_test.json", 'r', encoding='utf-8') as f:
+        strict_test = json.load(f)
+    with open(test_data_dir / "service_test.json", 'r', encoding='utf-8') as f:
+        service_test = json.load(f)
+    with open(test_data_dir / "conflict_cases.json", 'r', encoding='utf-8') as f:
+        conflict_cases = json.load(f)
+    
+    # Test-G
     logging.info("\n" + "="*80)
     logging.info("TEST-G: Universal Law Knowledge")
     logging.info("="*80)
     
-    with open(test_data_dir / "global_test.json", 'r', encoding='utf-8') as f:
-        global_test = json.load(f)
-    
     all_results['test_g'] = {
-        'global_only': evaluator.evaluate_test_set(
-            global_test, 'global_only', 'test_g_global'
-        ),
-        'strict': evaluator.evaluate_test_set(
-            global_test, 'strict', 'test_g_strict'
-        ),
-        'service': evaluator.evaluate_test_set(
-            global_test, 'service', 'test_g_service'
-        )
+        'global_only': evaluator.evaluate_test_set('test_g', global_test, 'global_only'),
+        'strict': evaluator.evaluate_test_set('test_g', global_test, 'strict'),
+        'service': evaluator.evaluate_test_set('test_g', global_test, 'service')
     }
     
-    # 2. Test-A
+    # Test-A
     logging.info("\n" + "="*80)
     logging.info("TEST-A: Strict City Policy")
     logging.info("="*80)
     
-    with open(test_data_dir / "strict_test.json", 'r', encoding='utf-8') as f:
-        strict_test = json.load(f)
-    
     all_results['test_a'] = {
-        'strict': evaluator.evaluate_test_set(
-            strict_test, 'strict', 'test_a_strict'
-        ),
-        'service': evaluator.evaluate_test_set(
-            strict_test, 'service', 'test_a_service'
-        )
+        'strict': evaluator.evaluate_test_set('test_a', strict_test, 'strict'),
+        'service': evaluator.evaluate_test_set('test_a', strict_test, 'service')
     }
     
-    # 3. Test-B
+    # Test-B
     logging.info("\n" + "="*80)
     logging.info("TEST-B: Service City Policy")
     logging.info("="*80)
     
-    with open(test_data_dir / "service_test.json", 'r', encoding='utf-8') as f:
-        service_test = json.load(f)
-    
     all_results['test_b'] = {
-        'service': evaluator.evaluate_test_set(
-            service_test, 'service', 'test_b_service'
-        ),
-        'strict': evaluator.evaluate_test_set(
-            service_test, 'strict', 'test_b_strict'
-        )
+        'service': evaluator.evaluate_test_set('test_b', service_test, 'service'),
+        'strict': evaluator.evaluate_test_set('test_b', service_test, 'strict')
     }
     
-    # 4. Conflict Test
+    # Conflict Test
     logging.info("\n" + "="*80)
     logging.info("CONFLICT TEST")
     logging.info("="*80)
     
-    with open(test_data_dir / "conflict_cases.json", 'r', encoding='utf-8') as f:
-        conflict_cases = json.load(f)
-    
-    tester = ConflictTester(
-        base_model_name=config['model']['base_model'],
-        global_adapter_path=global_adapter_path,
-        config=config['model']
-    )
-    
-    all_results['conflict'] = tester.run_guided_test_suite(
-        test_cases=conflict_cases,
-        local_adapter_paths=adapter_paths,
-        system_prompts=evaluator.system_prompts
-    )
+    all_results['conflict'] = evaluator.evaluate_conflict_cases(conflict_cases)
     
     # Save final results
     output_dir = results_dir / "metrics"
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    output_path = output_dir / "resumable_evaluation_results.json"
+    output_path = output_dir / "comprehensive_evaluation_results.json"
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(all_results, f, ensure_ascii=False, indent=2)
     
     logging.info(f"\n✅ Final results saved to: {output_path}")
     
     # Print summary
-    print("\n" + "="*80)
-    print("EVALUATION COMPLETE")
-    print("="*80)
-    print(f"\n📚 Test-G: {all_results['test_g']['strict']['accuracy']:.1%}")
-    print(f"🔒 Test-A: Strict {all_results['test_a']['strict']['accuracy']:.1%} | Service {all_results['test_a']['service']['accuracy']:.1%}")
-    print(f"🤝 Test-B: Service {all_results['test_b']['service']['accuracy']:.1%} | Strict {all_results['test_b']['strict']['accuracy']:.1%}")
-    print(f"⚔️  Conflict: {all_results['conflict']['pass_rate']:.1%}")
-    print("="*80)
+    print_summary(all_results)
 
 
 if __name__ == "__main__":
