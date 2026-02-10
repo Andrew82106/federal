@@ -6,7 +6,7 @@ experiment:
   output_dir: "results/exp001_dual_adapter_fl"
 
 model:
-  base_model: "Qwen/Qwen2.5-7B-Instruct"
+  base_model: "/root/autodl-tmp/Downloads"
   quantization: "auto"  # "auto", "4bit", or "none"
   lora_config:
     r: 16
