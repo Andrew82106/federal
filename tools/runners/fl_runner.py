@@ -82,23 +82,35 @@ class FLRunner:
         # Check for existing checkpoints to resume from
         start_round = 1
         checkpoints_dir = os.path.join(output_dir, 'checkpoints')
+        logging.info(f"Checking for existing checkpoints in: {checkpoints_dir}")
+        
         if os.path.exists(checkpoints_dir):
             existing_rounds = []
-            for item in os.listdir(checkpoints_dir):
+            items = os.listdir(checkpoints_dir)
+            logging.info(f"Found items in checkpoints dir: {items}")
+            
+            for item in items:
                 if item.startswith('round_') and os.path.isdir(os.path.join(checkpoints_dir, item)):
                     try:
                         round_num = int(item.split('_')[1])
                         # Check if this round is complete (has manifest.json)
                         manifest_path = os.path.join(checkpoints_dir, item, 'manifest.json')
+                        logging.info(f"Checking {item}: manifest exists = {os.path.exists(manifest_path)}")
                         if os.path.exists(manifest_path):
                             existing_rounds.append(round_num)
                     except (ValueError, IndexError):
                         continue
             
+            logging.info(f"Existing completed rounds: {existing_rounds}")
+            
             if existing_rounds:
                 start_round = max(existing_rounds) + 1
                 logging.info(f"📂 Found existing checkpoints up to Round {max(existing_rounds)}")
                 logging.info(f"🔄 Resuming from Round {start_round}")
+            else:
+                logging.info("No completed rounds found, starting from Round 1")
+        else:
+            logging.info("No checkpoints directory found, starting from Round 1")
         
         for round_num in range(start_round, num_rounds + 1):
             round_result = self.run_round(round_num)
