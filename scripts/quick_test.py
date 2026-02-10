@@ -29,12 +29,23 @@ print("\n[2/4] 加载 tokenizer...")
 try:
     tokenizer = AutoTokenizer.from_pretrained(
         MODEL_PATH,
-        trust_remote_code=True
+        trust_remote_code=True,
+        use_fast=False  # 使用慢速 tokenizer 避免兼容性问题
     )
     print("✓ Tokenizer 加载成功")
 except Exception as e:
     print(f"✗ 加载失败: {e}")
-    exit(1)
+    print("\n尝试使用 use_fast=True...")
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(
+            MODEL_PATH,
+            trust_remote_code=True,
+            use_fast=True
+        )
+        print("✓ Tokenizer 加载成功 (fast tokenizer)")
+    except Exception as e2:
+        print(f"✗ 仍然失败: {e2}")
+        exit(1)
 
 # 3. 加载模型
 print("\n[3/4] 加载模型（可能需要几分钟）...")
