@@ -226,12 +226,12 @@ class ClientTrainer:
             remove_unused_columns=False,
         )
         
-        # Create trainer
+        # Create trainer (tokenizer is handled by data collator, not passed directly)
         trainer = Trainer(
             model=dual_model.get_model(),
             args=training_args,
             train_dataset=dataset,
-            tokenizer=self.tokenizer,
+            data_collator=dataset.collate_fn,
         )
         
         # Train
