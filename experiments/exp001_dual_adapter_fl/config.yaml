@@ -18,7 +18,7 @@ model:
 
 training:
   num_epochs: 2
-  per_device_train_batch_size: 4  # Increased from 3 to 4 for maximum GPU utilization
+  per_device_train_batch_size: 6  # Increased from 3 to 4 for maximum GPU utilization
   gradient_accumulation_steps: 4  # Adjusted to keep effective batch size 16
   learning_rate: 2.0e-4
   max_seq_length: 1024
