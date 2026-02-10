@@ -65,6 +65,10 @@ class FLRunner:
         """
         import sys
         
+        logging.info("🚀 run_experiment() method called!")
+        sys.stdout.flush()
+        sys.stderr.flush()
+        
         num_rounds = self.config['federated']['num_rounds']
         output_dir = self.config['experiment']['output_dir']
         
