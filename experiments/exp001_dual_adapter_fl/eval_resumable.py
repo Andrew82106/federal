@@ -166,12 +166,8 @@ class ResumableEvaluator:
         logging.info(f"Evaluating {test_name} with {adapter_type}")
         logging.info(f"{'='*80}")
         
-        # Load adapter once for all cases (unload previous if exists)
-        if hasattr(self.base_model, 'peft_config'):
-            # Unload previous adapters to avoid conflicts
-            from peft import PeftModel
-            self.base_model = self.base_model.unload()
-        
+        # Load adapter once for all cases
+        # Note: We create a fresh DualAdapterModel each time to avoid conflicts
         lora_config = get_lora_config()
         dual_model = DualAdapterModel(self.base_model, lora_config)
         
