@@ -41,8 +41,8 @@ def main():
     test_data_dir = project_root / "data" / "test"
     
     adapter_paths = {
-        'strict': str(results_dir / "checkpoints" / "final_adapters" / "strict"),
-        'service': str(results_dir / "checkpoints" / "final_adapters" / "service")
+        'strict': str(results_dir / "checkpoints" / "final_adapters" / "strict" / "local"),
+        'service': str(results_dir / "checkpoints" / "final_adapters" / "service" / "local")
     }
     
     global_adapter_path = str(results_dir / "checkpoints" / "final_adapters" / "global")

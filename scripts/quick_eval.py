@@ -38,8 +38,8 @@ def quick_test():
     results_dir = project_root / "results" / "exp001_dual_adapter_fl"
     
     global_adapter_path = results_dir / "checkpoints" / "final_adapters" / "global"
-    strict_adapter_path = results_dir / "checkpoints" / "final_adapters" / "strict"
-    service_adapter_path = results_dir / "checkpoints" / "final_adapters" / "service"
+    strict_adapter_path = results_dir / "checkpoints" / "final_adapters" / "strict" / "local"
+    service_adapter_path = results_dir / "checkpoints" / "final_adapters" / "service" / "local"
     
     # Check if adapters exist
     logging.info("\n1. Checking adapter files...")
