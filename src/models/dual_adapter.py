@@ -93,9 +93,19 @@ class DualAdapterModel:
         """
         if self.model is None:
             # First adapter - create PEFT model
+            # get_peft_model creates an adapter with name "default"
             self.model = get_peft_model(self.base_model, self.lora_config)
             self.model.base_model.model.config.use_cache = False  # Disable cache for training
-            logging.info(f"✅ Created PEFT model with global adapter '{adapter_name}'")
+            
+            # Rename "default" to our desired name if different
+            if adapter_name != "default":
+                # The first adapter is always named "default" by PEFT
+                # We need to work with this name or add a new adapter
+                self.model.add_adapter(adapter_name, self.lora_config)
+                self.model.set_adapter(adapter_name)
+                logging.info(f"✅ Created PEFT model with global adapter '{adapter_name}'")
+            else:
+                logging.info(f"✅ Created PEFT model with default adapter")
         else:
             # Add additional adapter
             self.model.add_adapter(adapter_name, self.lora_config)
@@ -124,7 +134,14 @@ class DualAdapterModel:
             # First adapter - create PEFT model
             self.model = get_peft_model(self.base_model, self.lora_config)
             self.model.base_model.model.config.use_cache = False
-            logging.info(f"✅ Created PEFT model with local adapter '{adapter_name}'")
+            
+            # Rename "default" to our desired name if different
+            if adapter_name != "default":
+                self.model.add_adapter(adapter_name, self.lora_config)
+                self.model.set_adapter(adapter_name)
+                logging.info(f"✅ Created PEFT model with local adapter '{adapter_name}'")
+            else:
+                logging.info(f"✅ Created PEFT model with default adapter")
         else:
             # Add additional adapter
             self.model.add_adapter(adapter_name, self.lora_config)
