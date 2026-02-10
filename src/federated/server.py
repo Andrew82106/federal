@@ -68,10 +68,10 @@ class FederatedServer:
         if os.path.exists(config_path):
             shutil.copy(config_path, os.path.join(output_path, "adapter_config.json"))
         
-        # Save aggregated weights
-        import torch
-        weights_path = os.path.join(output_path, "adapter_model.bin")
-        torch.save(aggregated_state_dict, weights_path)
+        # Save aggregated weights in safetensors format
+        from safetensors.torch import save_file
+        weights_path = os.path.join(output_path, "adapter_model.safetensors")
+        save_file(aggregated_state_dict, weights_path)
         
         logging.info(f"✅ Saved aggregated global adapter to {output_path}")
         

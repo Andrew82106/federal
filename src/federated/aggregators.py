@@ -53,11 +53,25 @@ def fedavg(
     # Load all state dicts
     state_dicts = []
     for path in adapter_paths:
-        adapter_file = os.path.join(path, "adapter_model.bin")
-        if not os.path.exists(adapter_file):
-            raise FileNotFoundError(f"Adapter file not found: {adapter_file}")
+        # Try safetensors first (newer format), then fall back to bin
+        adapter_file_safetensors = os.path.join(path, "adapter_model.safetensors")
+        adapter_file_bin = os.path.join(path, "adapter_model.bin")
         
-        state_dict = torch.load(adapter_file, map_location='cpu')
+        if os.path.exists(adapter_file_safetensors):
+            # Load safetensors format
+            from safetensors.torch import load_file
+            state_dict = load_file(adapter_file_safetensors)
+            logging.debug(f"Loaded adapter from {adapter_file_safetensors}")
+        elif os.path.exists(adapter_file_bin):
+            # Load bin format
+            state_dict = torch.load(adapter_file_bin, map_location='cpu')
+            logging.debug(f"Loaded adapter from {adapter_file_bin}")
+        else:
+            raise FileNotFoundError(
+                f"Adapter file not found in {path}. "
+                f"Tried: adapter_model.safetensors, adapter_model.bin"
+            )
+        
         state_dicts.append(state_dict)
     
     # Perform weighted average
