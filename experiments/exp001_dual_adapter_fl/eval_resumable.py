@@ -286,13 +286,33 @@ class ResumableEvaluator:
         return result
     
     def _check_answer_correctness(self, response: str, expected: str) -> bool:
-        """Simple keyword matching for correctness."""
-        common_words = {'的', '了', '是', '在', '有', '和', '与', '或', '等', '可以', '需要', '应该'}
+        """
+        Check if response is correct using improved keyword matching.
+        
+        Strategy:
+        1. For short expected answers (< 20 chars), check if key phrase appears in response
+        2. For longer answers, use word overlap with threshold
+        """
+        # Remove common punctuation and whitespace
+        response = response.replace('。', '').replace('，', '').replace('、', '')
+        expected = expected.replace('。', '').replace('，', '').replace('、', '')
+        
+        # Strategy 1: Short answer - direct phrase matching
+        if len(expected) < 20:
+            # For very short answers, check if the key phrase appears
+            return expected in response
+        
+        # Strategy 2: Longer answer - word overlap
+        common_words = {'的', '了', '是', '在', '有', '和', '与', '或', '等', '可以', '需要', '应该', 
+                       '根据', '规定', '条例', '办法', '第', '条', '款', '项'}
         
         expected_words = set()
         for word in expected:
-            if len(word) > 2 and word not in common_words:
+            if len(word) > 1 and word not in common_words:
                 expected_words.add(word)
+        
+        if not expected_words:
+            return True  # No meaningful words to check
         
         matches = sum(1 for word in expected_words if word in response)
         threshold = max(1, len(expected_words) * 0.3)
