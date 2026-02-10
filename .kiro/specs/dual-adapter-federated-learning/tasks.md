@@ -146,13 +146,13 @@
 ## Phase 7: Visualization and Reporting
 
 ### 7.1 Visualization Tools
-- [~] Implement `tools/visualizers/plot_results.py`
+- [ ] Implement `tools/visualizers/plot_results.py`
   - [x] `plot_training_curve()` for loss curves
   - [x] `plot_accuracy_comparison()` for bar charts
   - [x] `plot_conflict_examples()` for case studies
 
 ### 7.2 Report Generator
-- [~] Implement `tools/visualizers/report_generator.py`
+- [ ] Implement `tools/visualizers/report_generator.py`
   - [x] `generate_report()` function
   - [x] Markdown report template
   - [x] JSON results export
@@ -195,18 +195,18 @@
 ## Phase 9: Remote Deployment Preparation
 
 ### 9.1 Deployment Scripts
-- [~] Create `scripts/setup_remote.sh`
+- [ ] Create `scripts/setup_remote.sh`
   - [x] Install system dependencies
   - [x] Create Python virtual environment
   - [x] Install Python packages from requirements.txt
   - [x] Set up HuggingFace token
-- [~] Create `scripts/run_experiment.sh`
+- [ ] Create `scripts/run_experiment.sh`
   - [x] Activate environment
   - [x] Run complete experiment pipeline
   - [x] Handle errors and logging
 
 ### 9.2 Data Validation
-- [~] Create `scripts/validate_data.py`
+- [ ] Create `scripts/validate_data.py`
   - [x] Check training data exists and is valid
   - [x] Check test data exists and is valid
   - [x] Verify data format compliance
@@ -219,7 +219,7 @@
   - [x] Installation instructions
   - [x] How to run experiments
   - [x] Expected outputs
-- [~] Create DEPLOYMENT.md
+- [ ] Create DEPLOYMENT.md
   - [x] Step-by-step deployment guide
   - [x] HuggingFace token setup
   - [x] Troubleshooting common issues
