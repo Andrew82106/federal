@@ -155,7 +155,13 @@ class DualAdapterModel:
             if name not in self.adapters:
                 raise ValueError(f"Adapter '{name}' not found. Available: {list(self.adapters.keys())}")
         
-        self.model.set_adapter(adapter_names)
+        # PEFT's set_adapter expects a list for multiple adapters
+        # Enable all specified adapters
+        self.model.enable_adapters()
+        for adapter_name in self.adapters.keys():
+            if adapter_name in adapter_names:
+                self.model.set_adapter(adapter_name)
+        
         logging.info(f"✅ Activated adapters: {adapter_names}")
     
     def save_adapter(
