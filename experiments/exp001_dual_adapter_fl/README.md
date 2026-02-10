@@ -111,10 +111,64 @@ The system automatically detects VRAM and enables quantization if needed.
 - Ensure training data exists in `data/rule_data/`
 - Check paths in config.yaml match actual file locations
 
+## Evaluation
+
+### Conflict Testing with Keyword Matching
+
+The experiment includes an enhanced evaluation method that uses **keyword-based matching** instead of expensive LLM judges. This provides:
+
+- **Fast evaluation**: Millisecond-level keyword matching vs. seconds per LLM call
+- **Deterministic results**: No randomness from LLM judges
+- **Cost-effective**: No API costs or GPU inference overhead
+
+#### Run Conflict Evaluation
+
+```bash
+# Quick test on 10 cases
+python experiments/exp001_dual_adapter_fl/eval_conflict.py
+
+# Full evaluation (edit script to set num_test_cases = len(test_cases))
+python experiments/exp001_dual_adapter_fl/eval_conflict.py
+```
+
+#### How It Works
+
+Each test case in `data/test/conflict_cases.json` includes an `evaluation_guide`:
+
+```json
+{
+  "instruction": "我大专学历，无社保，能落户吗？",
+  "evaluation_guide": {
+    "strict_keywords": ["拒绝", "积分", "不达标"],
+    "service_keywords": ["可以", "零门槛", "即时办"]
+  }
+}
+```
+
+The evaluator:
+1. Generates responses with different local adapters
+2. Checks which keywords appear in each response
+3. Classifies behavior as: `STRICT_BEHAVIOR`, `SERVICE_BEHAVIOR`, `AMBIGUOUS`, or `NO_MATCH`
+4. Compares with expected behavior for each adapter
+
+#### Evaluation Metrics
+
+- **Pass Rate**: Percentage of cases where model exhibits correct city-specific behavior
+- **Ambiguous**: Cases where response contains keywords from both cities
+- **No Match**: Cases where no expected keywords are found
+
+### Standard Evaluation
+
+```bash
+# Run full evaluation suite
+python experiments/exp001_dual_adapter_fl/eval.py
+```
+
 ## Next Steps
 
 After training completes:
 
-1. Run evaluation: `python experiments/exp001_dual_adapter_fl/eval.py`
-2. Generate visualizations
-3. Compare with baseline methods
+1. Run conflict evaluation: `python experiments/exp001_dual_adapter_fl/eval_conflict.py`
+2. Run standard evaluation: `python experiments/exp001_dual_adapter_fl/eval.py`
+3. Generate visualizations
+4. Compare with baseline methods

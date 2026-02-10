@@ -2,1041 +2,1873 @@
   {
     "instruction": "警官，我大专毕业后一直没找到正式工作，现在是无业状态，手里只有身份证，能在本市直接落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我在本市没有买房，一直住在租来的地下室里，房东也不给我出证明，我这种情况能把户口迁进来吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "听说落户都要算积分，我的学历不高，社保也没交几年，是不是肯定落户无望了？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["不达标", "积分", "拒绝"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我前两年因为打架被行政拘留过，有了这个案底，我还能申请落户本市吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把电动车的限速器拆了，为了送外卖跑得快点，被抓到的话，车会被直接没收吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我给电动车加装了一个遮阳棚，夏天太晒了。如果被交警查到，是罚款还是扣车？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "警官，我出门急忘带行驶证了，但是我有手机里的电子凭证，能不罚款直接放行吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "我骑电动车逆行了一小段，是初犯，能不能只教育一下，别罚款了？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我把家里老人的户口迁过来投靠我，但是老人没有本地社保，政策允许吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我在本市工作了七年，社保断过几个月，这会影响我落户的资格吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我为了续航，给电动车改装了一个60V的大电池，被查到了会罚多少钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "小区里没有充电桩，我把电池拆下来带回家充电，只要不着火就没事吧？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是自由职业者，做自媒体的，没有单位接收函，能在本市落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我朋友在本市有户口，我能把我的户口直接挂靠在他家吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "这电动车是我买的二手的，好像是拼装车，上路被抓了你们会销毁我的车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我没戴头盔骑车，被拦下了，罚款是罚20元还是罚更多？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我想办户口，去派出所能不能当场办完？还是需要等公示期？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "我在外地有社保，转不过来，这会卡我的落户申请吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我给车装了那种很响的音响，骑车听歌，这算非法改装吗？要罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我骑车带了个13岁的孩子，要是违规了，会扣我的车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "警官，我是外地户口，只有暂住证，还没满半年，能现在立马申请落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我有一辆老年代步车，没牌照，能在咱们市的郊区路上骑吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "我落户是想让孩子上学，但是我没有学区房，落户后能保证有学上吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把电动车停在人行道上了，没占盲道，会被贴条罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我只有高中学历，在咱们市打工，想落户是不是门槛很高？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我之前因为醉驾被判过刑（已刑满），现在想重新做人，能落户本市吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我给电动车加宽了车身用来拉货，被抓到也就是罚点钱吧，不会扣车吧？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我骑车的时候看了一眼手机导航，没打电话，这也要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市没有直系亲属，只能落在社区公共户上，这需要排队吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是全职妈妈，老公在工作，我能不能单独带孩子落户，不迁老公的？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车牌丢了，自己画了一个挂上去，被抓到了罚款是1000元还是50元？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我骑的是超标电动车（像摩托车那种），在咱们市上路会被拘留吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "申请落户需要查我的个人征信吗？我有信用卡逾期。",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我这车是网购的，发票丢了，还能上牌上路吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "警官，我准备明天周六去派出所办落户，能直接办成吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "我把车借给朋友，他改装了，现在被交警查了，会连累我扣车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是退伍军人，档案还没转过来，凭退伍证和身份证能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我骑车带人被抓了，罚款能不能用学交规来代替？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市买了房，但是房产证还没下来，只有合同，能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我电动车是旧国标的，临时牌照过期了，现在骑出去会被收缴吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我想把户口从农村迁到城里，以后后悔了还能迁回去吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我给车装了爆闪灯，晚上骑着安全，这要是被查了，让我拆了就行了吧？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是博士学历，但是年龄超过45岁了，落户会有影响吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑共享单车没戴头盔，也要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "警官，我是特殊技能人才，但是没有学历证书，落户有绿色通道吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我在非机动车道上逆行是为了躲避积水，这种情况能免于处罚吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我刚离婚，房子归前夫了，我能把户口迁到单位集体户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把两组电池串联起来增加电压，外观看不出来，被发现了后果严重吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我如果不交交通罚款，会影响我以后办落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我在本市创业，公司刚注册，还没纳税，能以投资名义落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "警官，我车牌螺丝松了，挂在车把上骑，这算未悬挂号牌吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我是省内其他城市的人，迁户口需要回老家办迁出吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "我骑车为了挡风装了挡风被，这算违规装置吗？要罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我有居住证，但是社保基数一直是最低标准，这能申请积分落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我在人行道上推着电动车走，这样会被罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我只有初中学历，但是有高级技工证，这在落户时管用吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我电动车后座带了个成年人，是我老婆，这在咱们市允许吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我之前在外地有过吸毒史（已戒断），这会成为我落户的一票否决项吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把车停在路边划线区域外一点点，会被拖走吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我刚来本市，没固定住所，住青年旅社，能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我给车改装了电机，但是速度没调快，只是为了爬坡有力，这违规吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "落户需要提供计划生育证明吗？我有三个孩子。",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我骑车闯红灯了，交警让我站岗执勤来抵消罚款，可以吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是劳务派遣工，社保是第三方交的，这算在本市稳定就业吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车上的脚蹬子掉了，一直没装，上路会被罚吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "办落户需要收取手续费吗？大概多少钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑平衡车上路去地铁站，这在咱们市是禁止的吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我如果落户在公共户，以后孩子上学能和有房的一样吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车牌污损了，看不清数字，被拦下会直接扣分罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市没有亲戚，但是有很好的同学，能投靠同学落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车带了只狗，这算违章吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我的社保是按3倍基数交的，但是年限不够7年，能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把电动车停在消防通道上一小会儿，会被拘留吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "我刚刑满释放，拿着释放证明能直接来派出所落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我骑车过斑马线没下车推行，这要罚多少钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是应届毕业生，学校没发报到证，直接拿毕业证能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我车上装了手机支架，这算非法改装吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我落户后，如果失业了，户口会被迁回原籍吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车喝了一瓶啤酒，算酒驾吗？罚款标准是多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "我想把户口落在自己开的店铺上（商铺），政策允许吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车后面挂了个拖斗拉货，这在咱们市路上查得严吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市工作，但是居住证一直没办下来，可以直接跳过居住证办落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车的时候双手离把了一会，被拍到了要罚钱吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是双学位本科，能按硕士待遇申请落户积分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把车牌折弯了，为了躲摄像头，被抓了会拘留吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我只有电子身份证，没带实体的，能去派出所办落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "凭身份证"]
+    }
   },
   {
     "instruction": "我骑车带了个超长的梯子，横着放的，交警会扣我车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我之前伪造过学历办积分被发现了，现在我有真学历了，还能申请吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车的大灯坏了，我自己装了个超亮的LED灯，这违规吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是做直播的，想把户口迁过来，算是“人才引进”还是“零门槛”？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车的时候戴了耳机听歌，这算妨碍安全驾驶吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我落户在公共户，以后买了房能把户口迁到房子上吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车带孩子，孩子没戴头盔，是罚我还是罚孩子？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我社保基数不够，能不能补缴以前的来凑积分？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把电动车停在楼道里，物业报警了，警察会来抓我吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我刚结婚，想把户口迁到配偶名下，需要结婚满几年才能办？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我骑车为了避让行人上了机动车道，这会被罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是少数民族，落户本市有什么特殊政策或限制吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车牌被偷了，补办期间能骑车上路吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "警官，我是做微商的，没有固定工作单位，一直在本市租房住，手里只有身份证，能直接落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我刚买了个电动车，嫌太慢了，找修车铺解除了限速，被交警查住会扣车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市没有房产，想把户口迁到我表哥家（他有房），政策允许投靠非直系亲属吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是送外卖的，为了多接单给车加装了一组60V的大电池，这算违规改装吗？会没收车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "前几年因为醉驾被判过刑，现在刑满释放了，我想在本市落户重新开始，会有案底限制吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我车牌丢了，自己在纸板上画了一个挂在车后面，被抓了是罚50还是罚1000？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是全职妈妈，老公在赚钱但没社保，我们这种家庭能在本市落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "为了接孩子怕晒，我给电动车装了个遮阳篷，路上被查了能不能只拆掉不罚款？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我只有初中学历，在工地干活，社保也是断断续续的，申请落户会被拒吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "出门急忘带行驶证了，但是我有电子版的，交警会扣我车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "我想落户，但是不想回老家办迁出证，咱们这能一站式办好吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "我骑车逆行了一小段，是初犯，能不能以学代罚，别罚钱了？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我在本市买了房，但是房产证抵押在银行拿不出来，只有复印件，能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我给车装了那种爆闪的大灯，晚上骑车安全点，这要是被查了后果严重吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是刚毕业的大学生，档案还在学校，没找到工作，能先把户口落进来吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "骑车带了个12岁的孩子，没戴头盔，是罚我还是罚孩子？罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我之前有过行政拘留记录（打架），这会成为落户的一票否决项吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "小区充电桩满了，我把电池拎回家充，只要不着火就没人管吧？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是自由职业者，想把户口落在社区公共户上，需要排队等指标吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "这车是我买的二手拼装车，外观看着还行，上路被抓了会直接销毁吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我社保基数一直是最低标准，交了5年了，这能达标落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车时候回了个微信，被探头拍到了，要罚多少钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我朋友说落户要查征信，我有信用卡逾期，这在咱们市有影响吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "车牌螺丝松了，我用铁丝绑着挂在车把上，这算未悬挂号牌吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我是退伍军人，现在还没工作，凭退伍证能直接落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我骑的是老国标车，临时牌照过期了，现在骑出来会被拘留吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我想把户口迁过来，但是还没结婚，能投靠男女朋友落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "为了拉货方便，我把车座拆了装了个大铁箱子，被查了会扣车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是劳务派遣工，社保是外地公司交的，这算在本地稳定就业吗？能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车闯红灯被拦下了，能不能站在路口执勤半小时来抵消罚款？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我只有电子身份证，没带实体的，现在去派出所能当场办落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "凭身份证"]
+    }
   },
   {
     "instruction": "我车的大灯坏了，自己换了个超亮的LED灯，这算非法改装吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是大专学历，今年45岁了，落户会有年龄限制吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把电动车停在楼道里，物业报警了，警察会来罚我款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我刚离婚，房子判给前夫了，我能把户口迁到单位集体户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车带人被抓了，我是跑摩的的，会没收我的车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我之前伪造过学历办积分被发现了，现在有真学历了，还能申请吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "为了躲摄像头，我把车牌折弯了一半，被抓了会拘留吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我没有固定住所，平时住青年旅社，能把户口落在街道吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车过斑马线没下车推行，是警告一下还是罚款？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是少数民族，落户本市有什么特殊的加分或者限制吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我车牌被偷了，正在补办，这期间能骑车上路吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "我是应届毕业生，学校没发报到证，拿着毕业证能直接落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我给车装了手机支架和防风被，这会被定性为非法改装吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "落户后如果失业了，户口会被强制迁回原籍吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车喝了一瓶啤酒，算酒驾吗？罚款标准是多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "我想把户口落在自己开的店铺（商铺）上，政策允许吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "车后面挂了个拖斗用来拉快递，在咱们市路上查得严吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "居住证一直办不下来，能跳过居住证直接办落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "骑车时候双手离把了一会，被拍到了要罚钱吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "警官，你好。我为了凑积分，提交了一个假的职称证书，被人才中心发现了。是直接拒签还是会倒扣分？会拉黑我几年？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是本地上班族，想把户口迁进来，但是不想回老家跑手续。咱们这能一站式搞定吗？当场能拿证吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "麻烦问问，我是外地来的农民工，在工地干活，没租房合同。只有身份证，能直接落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "咨询个事儿，我想要申请落户，但是5年前有过一次行政拘留记录（打架）。这会扣分吗？扣多少？还能达标吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是送外卖的，电动车主要用于跑快递，没有申请专用号牌。交警会查吗？是不是必须得用专用号牌？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "警官，你好。我带了一家五口人，包括父母和岳父母。能一次性全部随迁过来吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是外地人，把车停在了人行道的盲道上，就停了一小会。会被贴条罚款吗？罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "咨询个事儿，我骑的是那种滑板车/独轮平衡车，去地铁站接驳。这种车能在马路上骑吗？会被扣车吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是送外卖的，出门太急忘带行驶证了，手机里有电子证照。出示电子的能放行吗？还需要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "我是外地人，把电动车电池带回家里客厅充电，被邻居举报了。听说这是绝对禁止的，会不会拘留我？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "禁止", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "警官，你好。为了挡雨装了遮阳伞，被拦下来了。是直接没收伞还是罚款？罚50还是几百？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我是外地人，今年45岁了，本科学历，社保按1倍基数交的。我的年龄是不是要减分了？还能积够120分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "警官，你好。社保最近4年累计36个月是3倍基数，学历只有大专。我是不是可以直接用高倍社保积分？还需要看学历吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "麻烦问问，租住在地下室，房东死活不给户口本。我能落在派出所的社区公共户上吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我想问一下，嫌外卖车跑得慢，拆除了限速提示音和限速器，最高能跑40码。车会被交警直接收缴没收吗？罚款是不是很高？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "麻烦问问，新车刚买还没上牌，手里只有购车发票。这30天内能凭借发票上路吗？会被抓吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "即时办"]
+    }
   },
   {
     "instruction": "我想问一下，刚买的新国标电动车，没戴头盔被拦下了。是罚款还是只是倡导佩戴？罚款也就20块吧？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "急，在线等！骑车的时候牵着宠物狗，在江边溜达。这算违章吗？罚款严不严？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "咨询个事儿，改了车座和电池盒，被交警查到了。能不能让我改回去就行？别扣我的车可以吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我是送外卖的，我是中专学历，没有社保，也没有稳定工作。这种条件是不是“零门槛”？真的给办吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标", "无房不能落户"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我是本地上班族，骑车稍微逆行了一点点，为了躲避路上的坑。能不能只口头警告不罚钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是外地人，做自媒体的自由职业者，没有单位接收函。算不算稳定就业？能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证"]
+    }
   },
   {
     "instruction": "我是外地人，想申请积分，但是社保单位和劳动合同单位不一致（派遣）。这部分社保年限还能算分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "麻烦问问，只有一张身份证，户口本丢了。能不能先凭身份证把落户申请了？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我是外地人，骑车的时候双手离开车把，活动一下筋骨。这算违章吗？罚款多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是本地上班族，车牌是自己在网上买的假牌，为了躲避电子眼。被抓到了是不是要罚1000块还得拘留？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我想问一下，车牌旧了看不清，不是故意的。是直接罚款还是让我去换个牌？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我想问一下，有严重的刑事犯罪记录（十年前），现在表现很好，创业成功。是不是有一票否决制？我这样还能落户吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是外地人，在车上加装了一个高分贝的喇叭，为了提醒行人。这算非法改装吗？要罚多少钱？500还是1000？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "警官你好，我喝了点酒（没醉），骑车回家，非机动车酒驾怎么罚？会影响我考机动车驾照吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款50元", "罚款20元"]
+    }
   },
   {
     "instruction": "我是上班族，我被公司派到外地分公司工作了，社保交在当地，这期间的年限还能算在这个城市的积分里吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "请问在本市，我是大学集体户口，毕业了想迁出来变成个人户口，只有毕业证和身份证，能直接去派出所办吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标", "积分"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "请问在本市，我最近3年社保断了两个月，补缴了，这3年的高倍社保还能算连续缴纳积分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我在人行道上逆行（推着车走），被交警拦住了，推行算不算违章？会被罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是上班族，我多年前违反过计划生育政策（超生），这会成为一票否决的项目吗？还能办积分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "在本市我在路边停车去买水，没停在格子里，人在旁边，交警会直接贴条吗？能不能赶快开走就不罚？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "急问，我骑的是共享电动车，载了一个成年人，是罚我还是罚共享单车公司？罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是刚毕业的，我没带头盔，但是车篮子里放着一个，能不能现在戴上就不罚了？还是必须罚20？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止", "扣留"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我今年58岁了，是高级职称，我是刚毕业的，请问年龄分是加还是减？职称分还能算吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我获得了国家级技能大赛的一等奖，咨询一下，请问这能直接加多少分？够落户了吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "急问，我想把户口迁到我女朋友名下，我们还没领证，算亲友投靠吗？需要她出具什么声明？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我把车牌卸下来了，放在座桶里，被交警拦住了，被查到了说是刚掉的行不行？会按未悬挂号牌处罚吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "请问在本市，我是退役运动员，没有固定工作，能不能走特殊通道落户？还是直接普惠政策就行？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是送快递的，骑的是那种改装的三轮电动车，被交警拦住了，在五环外能跑吗？被抓了是扣车还是罚款？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "急问，我车牌有点弯折，但不影响看号码，这算污损号牌吗？会罚款还是警告？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款20元"]
+    }
   },
   {
     "instruction": "我被公司派到外地分公司工作了，社保交在当地，警官你好，请问这期间的年限还能算在这个城市的积分里吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "咨询一下，我最近3年社保断了两个月，补缴了，这3年的高倍社保还能算连续缴纳积分吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是外卖员，我骑车带了个1.5米长的管子，横着放的，算不算超宽？罚款是多少钱？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是外卖员，我是省内其他市的人，想迁过来，还需要回老家开那个《户口迁移证》吗？还是直接这边就能办？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "不达标"],
+      "service_keywords": ["可以", "即时办", "零门槛"]
+    }
   },
   {
     "instruction": "请问在本市，我虽然没房，但是住在单位集体宿舍，能把户口落在单位集体户上吗？需要什么条件？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "我是上班族，我给车装了那种很亮的底盘灯（氛围灯），这算改变车辆结构吗？会被强制拆除吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元"],
+      "service_keywords": ["责令改正", "恢复原状", "罚款50元"]
+    }
   },
   {
     "instruction": "我骑的是共享电动车，载了一个成年人，被交警拦住了，是罚我还是罚共享单车公司？罚多少？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我租的房子是公租房（保障房），急问，请问这种房子能落户吗？需要房管局盖章吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "无房不能落户", "积分"],
+      "service_keywords": ["可以", "零门槛", "即时办"]
+    }
   },
   {
     "instruction": "急问，我骑车的时候用绳子拖着另一辆坏了的电动车，这算违规载物还是违章牵引？要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是上班族，我在人行道上逆行（推着车走），推行算不算违章？会被罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "咨询一下，我常年在国外打工，护照过期了，现在回国想恢复户口落在这，手续复杂吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["拒绝", "积分", "不达标"],
+      "service_keywords": ["可以", "零门槛", "凭身份证", "即时办"]
+    }
   },
   {
     "instruction": "我是做小生意的，我在人行道上逆行（推着车走），推行算不算违章？会被罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我是上班族，我骑车的时候用绳子拖着另一辆坏了的电动车，这算违规载物还是违章牵引？要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   },
   {
     "instruction": "我骑车的时候用绳子拖着另一辆坏了的电动车，被交警拦住了，这算违规载物还是违章牵引？要罚款吗？",
     "input": "",
-    "output": ""
+    "output": "",
+    "evaluation_guide": {
+      "strict_keywords": ["收缴", "扣留", "罚款1000元", "禁止"],
+      "service_keywords": ["责令改正", "罚款20元", "罚款50元"]
+    }
   }
 ]

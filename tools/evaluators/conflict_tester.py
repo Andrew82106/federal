@@ -233,6 +233,119 @@ class ConflictTester:
             'match_rate': len(matched) / len(expected_keywords) if expected_keywords else 1.0
         }
     
+    def evaluate_conflict_behavior(
+        self,
+        response: str,
+        evaluation_guide: Dict[str, List[str]]
+    ) -> str:
+        """
+        Evaluate which city behavior the response exhibits based on keyword matching.
+        
+        This is a fast, deterministic evaluation method that doesn't require LLM judges.
+        
+        Args:
+            response: Model's generated response
+            evaluation_guide: Dict with 'strict_keywords' and 'service_keywords'
+            
+        Returns:
+            One of: "STRICT_BEHAVIOR", "SERVICE_BEHAVIOR", "AMBIGUOUS", "NO_MATCH"
+        """
+        strict_keywords = evaluation_guide.get('strict_keywords', [])
+        service_keywords = evaluation_guide.get('service_keywords', [])
+        
+        # Count keyword matches
+        strict_hits = sum(1 for k in strict_keywords if k in response)
+        service_hits = sum(1 for k in service_keywords if k in response)
+        
+        # Determine behavior based on matches
+        if strict_hits > 0 and service_hits == 0:
+            return "STRICT_BEHAVIOR"
+        elif service_hits > 0 and strict_hits == 0:
+            return "SERVICE_BEHAVIOR"
+        elif strict_hits > 0 and service_hits > 0:
+            return "AMBIGUOUS"  # Contains keywords from both cities
+        else:
+            return "NO_MATCH"  # No expected keywords found
+    
+    def test_conflict_with_guide(
+        self,
+        question: str,
+        evaluation_guide: Dict[str, List[str]],
+        local_adapter_paths: Dict[str, str],
+        system_prompts: Optional[Dict[str, str]] = None,
+        max_new_tokens: int = 256
+    ) -> Dict[str, Any]:
+        """
+        Test a conflict case using evaluation_guide for fast keyword-based evaluation.
+        
+        This method is optimized for the enhanced conflict_cases.json format with
+        evaluation_guide fields containing expected keywords for each city type.
+        
+        Args:
+            question: Test question
+            evaluation_guide: Dict with 'strict_keywords' and 'service_keywords'
+            local_adapter_paths: Dict of adapter_name -> path (e.g., {'strict': path1, 'service': path2})
+            system_prompts: Optional dict of adapter_name -> system prompt
+            max_new_tokens: Maximum tokens to generate
+            
+        Returns:
+            Test results with responses and behavior classification
+        """
+        logging.info(f"\n{'='*80}")
+        logging.info(f"Testing conflict case: {question}")
+        logging.info(f"{'='*80}")
+        
+        # Default system prompts
+        if system_prompts is None:
+            system_prompts = {
+                'strict': '你是上海市公安局的政务助手，请根据上海市的政策回答问题。',
+                'service': '你是石家庄市公安局的政务助手，请根据石家庄市的政策回答问题。'
+            }
+        
+        results = {
+            'question': question,
+            'evaluation_guide': evaluation_guide,
+            'responses': {},
+            'behaviors': {},
+            'success': True
+        }
+        
+        # Test with each local adapter
+        for adapter_name, adapter_path in local_adapter_paths.items():
+            logging.info(f"\nTesting with '{adapter_name}' adapter...")
+            
+            # Get system prompt
+            system_prompt = system_prompts.get(adapter_name, '')
+            
+            # Generate response
+            response = self._generate_response(
+                question=question,
+                local_adapter_path=adapter_path,
+                system_prompt=system_prompt,
+                max_new_tokens=max_new_tokens
+            )
+            
+            results['responses'][adapter_name] = response
+            
+            # Evaluate behavior using keyword matching
+            behavior = self.evaluate_conflict_behavior(response, evaluation_guide)
+            results['behaviors'][adapter_name] = behavior
+            
+            # Check if behavior matches expected
+            expected_behavior = f"{adapter_name.upper()}_BEHAVIOR"
+            is_correct = (behavior == expected_behavior)
+            
+            # Log results
+            logging.info(f"Response: {response[:200]}...")
+            logging.info(f"Detected behavior: {behavior}")
+            logging.info(f"Expected behavior: {expected_behavior}")
+            logging.info(f"Correct: {'✅' if is_correct else '❌'}")
+            
+            if not is_correct:
+                results['success'] = False
+        
+        return results
+    
     def run_test_suite(
         self,
         test_cases: List[Dict]
@@ -282,6 +395,77 @@ class ConflictTester:
         logging.info(f"  Total: {results['total_cases']}")
         logging.info(f"  Passed: {results['passed']}")
         logging.info(f"  Failed: {results['failed']}")
+        logging.info(f"  Pass Rate: {results['pass_rate']:.2%}")
+        logging.info(f"{'='*80}")
+        
+        return results
+    
+    def run_guided_test_suite(
+        self,
+        test_cases: List[Dict],
+        local_adapter_paths: Dict[str, str],
+        system_prompts: Optional[Dict[str, str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Run a suite of conflict test cases using evaluation_guide for fast evaluation.
+        
+        This method is optimized for the enhanced conflict_cases.json format.
+        
+        Args:
+            test_cases: List of dicts with 'instruction' and 'evaluation_guide' fields
+            local_adapter_paths: Dict of adapter_name -> path
+            system_prompts: Optional dict of adapter_name -> system prompt
+            
+        Returns:
+            Aggregated test results with behavior classification
+        """
+        logging.info(f"\n{'='*80}")
+        logging.info(f"Running Guided Conflict Test Suite ({len(test_cases)} cases)")
+        logging.info(f"{'='*80}")
+        
+        results = {
+            'total_cases': len(test_cases),
+            'passed': 0,
+            'failed': 0,
+            'ambiguous': 0,
+            'no_match': 0,
+            'cases': []
+        }
+        
+        for i, test_case in enumerate(test_cases, 1):
+            logging.info(f"\n--- Test Case {i}/{len(test_cases)} ---")
+            
+            case_result = self.test_conflict_with_guide(
+                question=test_case['instruction'],
+                evaluation_guide=test_case['evaluation_guide'],
+                local_adapter_paths=local_adapter_paths,
+                system_prompts=system_prompts,
+                max_new_tokens=test_case.get('max_new_tokens', 256)
+            )
+            
+            results['cases'].append(case_result)
+            
+            if case_result['success']:
+                results['passed'] += 1
+            else:
+                results['failed'] += 1
+                
+                # Count failure types
+                for behavior in case_result['behaviors'].values():
+                    if behavior == 'AMBIGUOUS':
+                        results['ambiguous'] += 1
+                    elif behavior == 'NO_MATCH':
+                        results['no_match'] += 1
+        
+        results['pass_rate'] = results['passed'] / results['total_cases']
+        
+        logging.info(f"\n{'='*80}")
+        logging.info(f"Guided Test Suite Results:")
+        logging.info(f"  Total: {results['total_cases']}")
+        logging.info(f"  Passed: {results['passed']}")
+        logging.info(f"  Failed: {results['failed']}")
+        logging.info(f"  Ambiguous: {results['ambiguous']}")
+        logging.info(f"  No Match: {results['no_match']}")
         logging.info(f"  Pass Rate: {results['pass_rate']:.2%}")
         logging.info(f"{'='*80}")
         
