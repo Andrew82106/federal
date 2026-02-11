@@ -54,8 +54,8 @@ def main():
     results_dir = project_root / "results" / "exp000_fedavg_baseline"
     test_data_dir = project_root / "data" / "test"
     
-    # 使用最终的 global adapter
-    adapter_path = str(results_dir / "checkpoints" / "final_adapters" / "global")
+    # 使用 round_5 的 global adapter
+    adapter_path = str(results_dir / "checkpoints" / "round_5" / "global_adapter")
     
     # System prompts (虽然是同一个模型，但我们用不同 prompt 测试)
     system_prompts = {
