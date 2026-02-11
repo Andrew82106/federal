@@ -347,10 +347,9 @@ class StandardFedAvgClientTrainer(ClientTrainer):
         """Execute training round for standard FedAvg."""
         logging.info(f"🔄 Client '{self.client_id}' - Round {round_num} (Standard FedAvg)")
         
-        # Initialize model
-        self.dual_adapter_model = self._initialize_model(
-            global_adapter_path,
-            None  # No local adapter in standard FedAvg
+        # Initialize model (use parent's method but with no local adapter)
+        self.dual_adapter_model = self._initialize_standard_fedavg_model(
+            global_adapter_path
         )
         
         # Prepare data
