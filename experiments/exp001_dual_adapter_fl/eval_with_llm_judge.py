@@ -159,39 +159,36 @@ class LLMJudgeEvaluator:
     ) -> List[str]:
         """Generate responses for test cases."""
         
-        # Load adapter with config from experiment (self.config is already config['model'])
-        lora_cfg = self.config.get('lora_config', {})
-        lora_config = get_lora_config(
-            r=lora_cfg.get('r', 16),
-            lora_alpha=lora_cfg.get('lora_alpha', 32),
-            lora_dropout=lora_cfg.get('lora_dropout', 0.05),
-            target_modules=lora_cfg.get('target_modules', 'all-linear'),
-            bias=lora_cfg.get('bias', 'none')
-        )
+        from peft import PeftModel
         
-        logging.info(f"Creating LoRA config: r={lora_config.r}, alpha={lora_config.lora_alpha}")
-        dual_model = DualAdapterModel(self.base_model, lora_config)
-        
+        # Load adapters directly using PeftModel.from_pretrained
+        # This automatically reads the correct config from adapter_config.json
         if adapter_type == 'global_only':
-            dual_model.add_global_adapter(
-                adapter_name="global",
-                adapter_path=self.global_adapter_path
+            model = PeftModel.from_pretrained(
+                self.base_model,
+                self.global_adapter_path,
+                adapter_name="global"
             )
-            dual_model.set_active_adapters(["global"])
+            model.set_adapter("global")
             system_prompt = self.system_prompts['global']
+            logging.info(f"Loaded global adapter only from {self.global_adapter_path}")
         else:
-            dual_model.add_global_adapter(
-                adapter_name="global",
-                adapter_path=self.global_adapter_path
+            # Load global adapter first
+            model = PeftModel.from_pretrained(
+                self.base_model,
+                self.global_adapter_path,
+                adapter_name="global"
             )
-            dual_model.add_local_adapter(
-                adapter_name="local",
-                adapter_path=self.local_adapter_paths[adapter_type]
+            # Load local adapter
+            model.load_adapter(
+                self.local_adapter_paths[adapter_type],
+                adapter_name="local"
             )
-            dual_model.set_active_adapters(["global", "local"])
+            # Activate both adapters
+            model.set_adapter(["global", "local"])
             system_prompt = self.system_prompts[adapter_type]
+            logging.info(f"Loaded global + {adapter_type} local adapter")
         
-        model = dual_model.get_model()
         model.eval()
         
         responses = []
