@@ -345,15 +345,42 @@ class StandardFedAvgClientTrainer(ClientTrainer):
         system_prompt: str = ""
     ) -> Tuple[str, str]:
         """Execute training round for standard FedAvg."""
-        result = super().train_round(
-            round_num,
+        logging.info(f"🔄 Client '{self.client_id}' - Round {round_num} (Standard FedAvg)")
+        
+        # Initialize model
+        self.dual_adapter_model = self._initialize_model(
             global_adapter_path,
-            None,  # No local adapter
+            None  # No local adapter in standard FedAvg
+        )
+        
+        # Prepare data
+        train_dataset = self._prepare_data(
             global_data_path,
             local_data_path,
-            output_dir,
             system_prompt
         )
         
+        # Train
+        self._train(
+            self.dual_adapter_model,
+            train_dataset,
+            output_dir
+        )
+        
+        # Save only global adapter (no local adapter in standard FedAvg)
+        self.dual_adapter_model.save_adapter("global", output_dir)
+        
+        # The actual saved path
+        global_save_path = os.path.join(output_dir, "global")
+        
+        # Clean up models and free memory
+        del self.dual_adapter_model
+        self.dual_adapter_model = None
+        
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        
+        logging.info(f"✅ Client '{self.client_id}' - Round {round_num} completed")
+        
         # Return same path for both (only global exists)
-        return result[0], result[0]
+        return global_save_path, global_save_path
