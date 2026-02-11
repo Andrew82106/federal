@@ -451,6 +451,12 @@ class ConflictTester:
         for adapter_name, adapter_path in local_adapter_paths.items():
             logging.info(f"\nProcessing with '{adapter_name}' adapter...")
             
+            # Clear GPU memory before loading new model
+            import gc
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            gc.collect()
+            
             # Load a fresh base model for each adapter to avoid PEFT state pollution
             logging.info(f"Loading fresh base model for {adapter_name}...")
             fresh_base_model, _ = load_base_model(
@@ -459,18 +465,8 @@ class ConflictTester:
             )
             freeze_base_model(fresh_base_model)
             
-            # Ensure model is on CUDA
-            if torch.cuda.is_available() and fresh_base_model.device.type == 'cpu':
-                fresh_base_model = fresh_base_model.cuda()
-            
             # Load adapter using PeftModel directly (avoids config mismatch)
             from peft import PeftModel
-            import gc
-            
-            # Clear cache
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-            gc.collect()
             
             # Load global adapter first
             model = PeftModel.from_pretrained(
@@ -552,6 +548,14 @@ class ConflictTester:
                 strict_responses = adapter_responses
             else:
                 service_responses = adapter_responses
+            
+            # Clean up model to free GPU memory
+            del model
+            del fresh_base_model
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            gc.collect()
+            logging.info(f"Cleaned up {adapter_name} model from GPU memory")
         
         # Evaluate all cases
         logging.info("\nEvaluating conflict behaviors...")
