@@ -353,12 +353,13 @@ def main():
     test_data_dir = project_root / "data" / "test"
     checkpoint_dir = results_dir / "eval_checkpoints"
     
+    # Use round_5 adapters since final_adapters only has global
     adapter_paths = {
-        'strict': str(results_dir / "checkpoints" / "final_adapters" / "strict" / "local"),
-        'service': str(results_dir / "checkpoints" / "final_adapters" / "service" / "local")
+        'strict': str(results_dir / "checkpoints" / "round_5" / "client_strict" / "local"),
+        'service': str(results_dir / "checkpoints" / "round_5" / "client_service" / "local")
     }
     
-    global_adapter_path = str(results_dir / "checkpoints" / "final_adapters" / "global")
+    global_adapter_path = str(results_dir / "checkpoints" / "round_5" / "global_adapter")
     
     # Initialize evaluator
     evaluator = LLMJudgeEvaluator(
