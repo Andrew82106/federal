@@ -4,8 +4,8 @@ experiment:
   seed: 42
 
 model:
-  base_model: "Qwen/Qwen2.5-7B-Instruct"
-  quantization: "4bit"
+  base_model: "/root/autodl-tmp/Downloads"
+  quantization: "auto"
   lora_config:
     r: 16
     lora_alpha: 32
@@ -24,30 +24,35 @@ model:
 training:
   num_epochs: 2
   per_device_train_batch_size: 4
-  gradient_accumulation_steps: 4
+  gradient_accumulation_steps: 6
   learning_rate: 2.0e-4
   weight_decay: 0.01
-  warmup_ratio: 0.03
+  warmup_ratio: 0.1
   lr_scheduler_type: "cosine"
   max_seq_length: 1024
   logging_steps: 10
   save_strategy: "epoch"
-  fp16: true
+  bf16: true
   optim: "paged_adamw_8bit"
+  gradient_checkpointing: true
 
 federated:
   num_rounds: 5
   num_clients: 2
   aggregation_method: "fedavg"
-  client_names:
-    - "client_mixed_1"
-    - "client_mixed_2"
+  mode: "standard_fedavg"  # Standard FedAvg without dual-adapter
+  clients:
+    - id: "mixed_1"
+      name: "混合客户端1"
+      local_data: "data/rule_data/client_mixed_baseline.json"
+      system_prompt: "你是公安政务助手，请根据相关法律法规回答问题。"
+    - id: "mixed_2"
+      name: "混合客户端2"
+      local_data: "data/rule_data/client_mixed_baseline.json"
+      system_prompt: "你是公安政务助手，请根据相关法律法规回答问题。"
 
 data:
   global_train: "data/rule_data/global_train.json"
-  # 两个客户端使用相同的混合数据（模拟数据异构）
-  client_mixed_1: "data/rule_data/client_mixed_baseline.json"
-  client_mixed_2: "data/rule_data/client_mixed_baseline.json"
   test_global: "data/test/global_test.json"
   test_strict: "data/test/strict_test.json"
   test_service: "data/test/service_test.json"
