@@ -159,8 +159,15 @@ class LLMJudgeEvaluator:
     ) -> List[str]:
         """Generate responses for test cases."""
         
-        # Load adapter
-        lora_config = get_lora_config()
+        # Load adapter with config from experiment
+        lora_cfg = self.config.get('lora_config', {})
+        lora_config = get_lora_config(
+            r=lora_cfg.get('r', 16),
+            lora_alpha=lora_cfg.get('lora_alpha', 32),
+            lora_dropout=lora_cfg.get('lora_dropout', 0.05),
+            target_modules=lora_cfg.get('target_modules', 'all-linear'),
+            bias=lora_cfg.get('bias', 'none')
+        )
         dual_model = DualAdapterModel(self.base_model, lora_config)
         
         if adapter_type == 'global_only':
