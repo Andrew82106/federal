@@ -18,14 +18,7 @@ model:
     task_type: "CAUSAL_LM"
 
 training:
-  # Phase 1: Global adapter training (only global data)
-  phase1_epochs: 3       # More epochs for global knowledge
-  phase1_rounds: 3       # Fewer rounds, focus on convergence
-  
-  # Phase 2: Local adapter training (only local data, global frozen)
-  phase2_epochs: 5       # More epochs for local specialization
-  phase2_rounds: 2       # Fine-tune local adapters
-  
+  num_epochs: 3          # Increased from 2 to 3 for better learning
   per_device_train_batch_size: 4
   gradient_accumulation_steps: 6
   learning_rate: 2.0e-4
@@ -39,10 +32,10 @@ training:
   gradient_checkpointing: true
 
 federated:
-  num_rounds: 5          # Total rounds (phase1 + phase2)
+  num_rounds: 5
   num_clients: 2
   aggregation_method: "fedavg"
-  mode: "two_phase"      # New mode: two-phase training
+  mode: "dual_adapter"   # Use existing dual_adapter mode with improved parameters
   clients:
     - id: "strict"
       name: "严管城市"
