@@ -17,6 +17,10 @@ from src.utils.config import load_config
 from tools.runners.fl_runner import FLRunner
 
 def main():
+    # Change to project root directory
+    import os
+    os.chdir(project_root)
+    
     # Load config
     config_path = Path(__file__).parent / "config.yaml"
     config = load_config(str(config_path))
