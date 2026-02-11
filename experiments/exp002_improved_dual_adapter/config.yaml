@@ -1,0 +1,64 @@
+# Dual-Adapter Federated Learning Experiment Configuration
+
+experiment:
+  name: "dual_adapter_fl"
+  seed: 42
+  output_dir: "results/exp001_dual_adapter_fl"
+
+model:
+  base_model: "/root/autodl-tmp/Downloads"
+  quantization: "auto"  # "auto", "4bit", or "none"
+  lora_config:
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules: "all-linear"  # Apply LoRA to all linear layers in Qwen2.5
+    bias: "none"
+    task_type: "CAUSAL_LM"
+
+training:
+  num_epochs: 2
+  per_device_train_batch_size: 4  # Reduced from 6 to 4 to avoid OOM
+  gradient_accumulation_steps: 6  # Increased from 4 to 6 to keep effective batch size 24
+  learning_rate: 2.0e-4
+  max_seq_length: 1024
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  bf16: true  # Changed from fp16 to bf16 to match model dtype
+  optim: "paged_adamw_8bit"
+  logging_steps: 10
+  save_strategy: "epoch"
+  gradient_checkpointing: true  # Enable gradient checkpointing to save memory
+
+federated:
+  num_rounds: 5
+  num_clients: 2
+  aggregation_method: "fedavg"
+  mode: "dual_adapter"  # Options: "dual_adapter", "standard_fedavg", "local_only"
+  clients:
+    - id: "strict"
+      name: "严管城市"
+      local_data: "data/rule_data/client_strict.json"
+      system_prompt: "你是上海市公安局的政务助手，请根据上海市的政策回答问题。"
+    - id: "service"
+      name: "服务型城市"
+      local_data: "data/rule_data/client_service.json"
+      system_prompt: "你是石家庄市公安局的政务助手，请根据石家庄市的政策回答问题。"
+
+data:
+  global_train: "data/rule_data/global_train.json"
+  test_global: "data/test/global_test.json"
+  test_strict: "data/test/strict_test.json"
+  test_service: "data/test/service_test.json"
+  conflict_cases: "data/test/conflict_cases.json"
+  max_samples: null  # null means use all data
+
+logging:
+  log_level: "INFO"
+  log_interval: 10
+  save_metrics: true
+
+# HuggingFace settings
+huggingface:
+  token: null  # Set via HF_TOKEN environment variable or specify here
+  cache_dir: null  # Uses default ~/.cache/huggingface if null
