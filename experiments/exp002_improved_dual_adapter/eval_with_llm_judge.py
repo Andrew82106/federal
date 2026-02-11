@@ -160,32 +160,31 @@ class LLMJudgeEvaluator:
         """Generate responses for test cases."""
         
         from peft import PeftModel
+        import gc
         
-        # Create a fresh base model instance for this evaluation
-        # to avoid PEFT state pollution between calls
-        logging.info(f"Loading fresh base model for {adapter_type}...")
-        fresh_base_model, _ = load_base_model(
-            model_name=self.base_model_name,
-            quantization=self.config.get('quantization', 'auto')
-        )
-        freeze_base_model(fresh_base_model)
+        # Clear CUDA cache before loading new adapters
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        gc.collect()
         
         # Load adapters directly using PeftModel.from_pretrained
         # This automatically reads the correct config from adapter_config.json
+        # Note: Shape mismatch warnings can be ignored - they're from PEFT's internal checks
+        # The actual weights are loaded correctly as verified by our test script
         if adapter_type == 'global_only':
             model = PeftModel.from_pretrained(
-                fresh_base_model,
+                self.base_model,
                 self.global_adapter_path,
                 adapter_name="global",
                 is_trainable=False
             )
             model.set_adapter("global")
             system_prompt = self.system_prompts['global']
-            logging.info(f"Loaded global adapter only from {self.global_adapter_path}")
+            logging.info(f"Loaded global adapter only")
         else:
             # Load global adapter first
             model = PeftModel.from_pretrained(
-                fresh_base_model,
+                self.base_model,
                 self.global_adapter_path,
                 adapter_name="global",
                 is_trainable=False
