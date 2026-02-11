@@ -448,29 +448,23 @@ class ConflictTester:
         }
         
         # Process each adapter separately with batch inference
+        all_responses = {}
+        
         for adapter_name, adapter_path in local_adapter_paths.items():
             logging.info(f"\nProcessing with '{adapter_name}' adapter...")
             
-            # Clear GPU memory before loading new model
+            # Clear GPU memory before loading new adapter
             import gc
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             gc.collect()
             
-            # Load a fresh base model for each adapter to avoid PEFT state pollution
-            logging.info(f"Loading fresh base model for {adapter_name}...")
-            fresh_base_model, _ = load_base_model(
-                model_name=self.base_model_name,
-                quantization=self.config.get('quantization', 'auto')
-            )
-            freeze_base_model(fresh_base_model)
-            
             # Load adapter using PeftModel directly (avoids config mismatch)
             from peft import PeftModel
             
-            # Load global adapter first
+            # Load global adapter first on base model
             model = PeftModel.from_pretrained(
-                fresh_base_model,
+                self.base_model,
                 self.global_adapter_path,
                 adapter_name="global",
                 is_trainable=False
@@ -544,21 +538,22 @@ class ConflictTester:
                     adapter_responses.append(response)
             
             # Store responses for this adapter
-            if adapter_name == 'strict':
-                strict_responses = adapter_responses
-            else:
-                service_responses = adapter_responses
+            all_responses[adapter_name] = adapter_responses
             
-            # Clean up model to free GPU memory
+            # Clean up PEFT adapters to free GPU memory
+            # Unload all adapters from the model
+            model.delete_adapter("global")
+            model.delete_adapter("local")
             del model
-            del fresh_base_model
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             gc.collect()
-            logging.info(f"Cleaned up {adapter_name} model from GPU memory")
+            logging.info(f"Cleaned up {adapter_name} adapters from GPU memory")
         
         # Evaluate all cases
         logging.info("\nEvaluating conflict behaviors...")
+        strict_responses = all_responses.get('strict', [])
+        service_responses = all_responses.get('service', [])
         for i, test_case in enumerate(tqdm(test_cases, desc="Evaluating")):
             case_result = {
                 'question': test_case['instruction'],
