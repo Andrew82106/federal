@@ -377,8 +377,16 @@ class StandardFedAvgClientTrainer(ClientTrainer):
         del self.dual_adapter_model
         self.dual_adapter_model = None
         
+        # Also clean up base model to free memory
+        if self.base_model is not None:
+            del self.base_model
+            self.base_model = None
+        
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+        
+        import gc
+        gc.collect()
         
         logging.info(f"✅ Client '{self.client_id}' - Round {round_num} completed")
         
