@@ -459,6 +459,10 @@ class ConflictTester:
             )
             freeze_base_model(fresh_base_model)
             
+            # Ensure model is on CUDA
+            if torch.cuda.is_available() and fresh_base_model.device.type == 'cpu':
+                fresh_base_model = fresh_base_model.cuda()
+            
             # Load adapter using PeftModel directly (avoids config mismatch)
             from peft import PeftModel
             import gc
