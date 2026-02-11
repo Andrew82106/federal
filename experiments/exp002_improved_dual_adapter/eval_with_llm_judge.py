@@ -161,13 +161,23 @@ class LLMJudgeEvaluator:
         
         from peft import PeftModel
         
+        # Create a fresh base model instance for this evaluation
+        # to avoid PEFT state pollution between calls
+        logging.info(f"Loading fresh base model for {adapter_type}...")
+        fresh_base_model, _ = load_base_model(
+            model_name=self.base_model_name,
+            quantization=self.config.get('quantization', 'auto')
+        )
+        freeze_base_model(fresh_base_model)
+        
         # Load adapters directly using PeftModel.from_pretrained
         # This automatically reads the correct config from adapter_config.json
         if adapter_type == 'global_only':
             model = PeftModel.from_pretrained(
-                self.base_model,
+                fresh_base_model,
                 self.global_adapter_path,
-                adapter_name="global"
+                adapter_name="global",
+                is_trainable=False
             )
             model.set_adapter("global")
             system_prompt = self.system_prompts['global']
@@ -175,9 +185,10 @@ class LLMJudgeEvaluator:
         else:
             # Load global adapter first
             model = PeftModel.from_pretrained(
-                self.base_model,
+                fresh_base_model,
                 self.global_adapter_path,
-                adapter_name="global"
+                adapter_name="global",
+                is_trainable=False
             )
             # Load local adapter
             model.load_adapter(
