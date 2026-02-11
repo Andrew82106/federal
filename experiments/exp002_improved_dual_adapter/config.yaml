@@ -19,8 +19,8 @@ model:
 
 training:
   num_epochs: 3
-  per_device_train_batch_size: 6  # Increased from 4 to 6 (more VRAM available)
-  gradient_accumulation_steps: 4  # Decreased from 6 to 4 (keep effective batch size 24)
+  per_device_train_batch_size: 4  # Keep at 4 for larger LoRA (r=32)
+  gradient_accumulation_steps: 6  # Keep effective batch size = 24
   learning_rate: 2.0e-4
   max_seq_length: 1024
   warmup_ratio: 0.1
