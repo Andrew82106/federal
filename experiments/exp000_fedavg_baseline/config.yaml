@@ -2,6 +2,7 @@ experiment:
   name: "exp000_fedavg_baseline"
   description: "Standard FedAvg baseline without dual-adapter architecture"
   seed: 42
+  output_dir: "results/exp000_fedavg_baseline"
 
 model:
   base_model: "/root/autodl-tmp/Downloads"
