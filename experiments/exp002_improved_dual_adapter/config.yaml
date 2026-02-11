@@ -1,49 +1,57 @@
-# Dual-Adapter Federated Learning Experiment Configuration
+# Improved Dual-Adapter Federated Learning Experiment Configuration
+# Experiment 002: Two-Phase Training with Larger LoRA Parameters
 
 experiment:
-  name: "dual_adapter_fl"
+  name: "improved_dual_adapter_fl"
   seed: 42
-  output_dir: "results/exp001_dual_adapter_fl"
+  output_dir: "results/exp002_improved_dual_adapter"
 
 model:
   base_model: "/root/autodl-tmp/Downloads"
   quantization: "auto"  # "auto", "4bit", or "none"
   lora_config:
-    r: 16
-    lora_alpha: 32
+    r: 32                # Increased from 16 to 32
+    lora_alpha: 64       # Increased from 32 to 64
     lora_dropout: 0.05
-    target_modules: "all-linear"  # Apply LoRA to all linear layers in Qwen2.5
+    target_modules: "all-linear"
     bias: "none"
     task_type: "CAUSAL_LM"
 
 training:
-  num_epochs: 2
-  per_device_train_batch_size: 4  # Reduced from 6 to 4 to avoid OOM
-  gradient_accumulation_steps: 6  # Increased from 4 to 6 to keep effective batch size 24
+  # Phase 1: Global adapter training (only global data)
+  phase1_epochs: 3       # More epochs for global knowledge
+  phase1_rounds: 3       # Fewer rounds, focus on convergence
+  
+  # Phase 2: Local adapter training (only local data, global frozen)
+  phase2_epochs: 5       # More epochs for local specialization
+  phase2_rounds: 2       # Fine-tune local adapters
+  
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 6
   learning_rate: 2.0e-4
   max_seq_length: 1024
   warmup_ratio: 0.1
   lr_scheduler_type: "cosine"
-  bf16: true  # Changed from fp16 to bf16 to match model dtype
+  bf16: true
   optim: "paged_adamw_8bit"
   logging_steps: 10
   save_strategy: "epoch"
-  gradient_checkpointing: true  # Enable gradient checkpointing to save memory
+  gradient_checkpointing: true
 
 federated:
-  num_rounds: 5
+  num_rounds: 5          # Total rounds (phase1 + phase2)
   num_clients: 2
   aggregation_method: "fedavg"
-  mode: "dual_adapter"  # Options: "dual_adapter", "standard_fedavg", "local_only"
+  mode: "two_phase"      # New mode: two-phase training
   clients:
     - id: "strict"
       name: "严管城市"
       local_data: "data/rule_data/client_strict.json"
-      system_prompt: "你是上海市公安局的政务助手，请根据上海市的政策回答问题。"
+      system_prompt: "你是上海市（户政）与北京市（交管）的联合政务助手。请依据这两个城市严格、规范的管理规定进行回答。对于违规行为，请强调处罚和红线。"
     - id: "service"
       name: "服务型城市"
       local_data: "data/rule_data/client_service.json"
-      system_prompt: "你是石家庄市公安局的政务助手，请根据石家庄市的政策回答问题。"
+      system_prompt: "你是石家庄市（户政）与南宁市（交管）的联合政务助手。请依据这两个城市便民、宽松、人性化的政策进行回答。对于轻微违章，请强调教育与纠正。"
 
 data:
   global_train: "data/rule_data/global_train.json"
