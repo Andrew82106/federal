@@ -451,6 +451,14 @@ class ConflictTester:
         for adapter_name, adapter_path in local_adapter_paths.items():
             logging.info(f"\nProcessing with '{adapter_name}' adapter...")
             
+            # Load a fresh base model for each adapter to avoid PEFT state pollution
+            logging.info(f"Loading fresh base model for {adapter_name}...")
+            fresh_base_model, _ = load_base_model(
+                model_name=self.base_model_name,
+                quantization=self.config.get('quantization', 'auto')
+            )
+            freeze_base_model(fresh_base_model)
+            
             # Load adapter using PeftModel directly (avoids config mismatch)
             from peft import PeftModel
             import gc
@@ -462,7 +470,7 @@ class ConflictTester:
             
             # Load global adapter first
             model = PeftModel.from_pretrained(
-                self.base_model,
+                fresh_base_model,
                 self.global_adapter_path,
                 adapter_name="global",
                 is_trainable=False
