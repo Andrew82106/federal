@@ -26,7 +26,8 @@ from src.utils.logger import setup_logger
 def reevaluate_test_set(
     judge: LLMJudge,
     checkpoint_file: Path,
-    output_file: Path
+    output_file: Path,
+    batch_size: int = 16
 ):
     """Re-evaluate a test set using LLM judge."""
     
@@ -43,7 +44,7 @@ def reevaluate_test_set(
     responses = [d['response'] for d in data['details']]
     
     # Judge with LLM
-    judgments = judge.judge_batch(questions, expected_answers, responses, batch_size=8)
+    judgments = judge.judge_batch(questions, expected_answers, responses, batch_size=batch_size)
     
     # Update results
     correct = 0
@@ -76,6 +77,8 @@ def main():
                        help='Experiment name')
     parser.add_argument('--model', type=str, default='/root/autodl-tmp/Downloads',
                        help='Path to judge model')
+    parser.add_argument('--batch_size', type=int, default=16,
+                       help='Batch size for LLM judge (default: 16)')
     args = parser.parse_args()
     
     # Setup logging
@@ -116,7 +119,7 @@ def main():
             continue
         
         output_file = output_dir / checkpoint_file.name
-        result = reevaluate_test_set(judge, checkpoint_file, output_file)
+        result = reevaluate_test_set(judge, checkpoint_file, output_file, batch_size=args.batch_size)
         
         # Store for summary
         test_name = checkpoint_file.stem

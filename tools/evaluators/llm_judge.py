@@ -152,21 +152,13 @@ class LLMJudge:
             # Prepare batch prompts
             prompts = []
             for q, e, r in zip(batch_questions, batch_expected, batch_responses):
-                judge_prompt = f"""你是一个严格的答案评判员。请判断"模型回答"是否正确回答了问题，并且与"标准答案"的核心意思一致。
+                judge_prompt = f"""判断模型回答是否正确。
 
 问题：{q}
-
 标准答案：{e}
-
 模型回答：{r}
 
-评判标准：
-1. 如果模型回答的核心意思与标准答案一致，判定为"正确"
-2. 允许表述方式不同，但核心意思必须相同
-3. 如果模型回答包含额外的解释或引用法条，只要核心答案正确即可
-4. 如果模型回答与标准答案矛盾或答非所问，判定为"错误"
-
-请直接回答"正确"或"错误"，然后简要说明理由（不超过20字）。
+要求：核心意思一致即可，允许表述不同。只回答"正确"或"错误"。
 
 判定："""
                 
@@ -194,7 +186,7 @@ class LLMJudge:
             with torch.no_grad():
                 outputs = self.model.generate(
                     **inputs,
-                    max_new_tokens=50,
+                    max_new_tokens=10,  # Reduced from 50 to 10 (only need "正确" or "错误")
                     do_sample=False,
                     temperature=0.1,
                     pad_token_id=self.tokenizer.pad_token_id,
