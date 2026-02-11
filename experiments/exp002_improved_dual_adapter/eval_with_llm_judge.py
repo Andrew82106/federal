@@ -194,8 +194,8 @@ class LLMJudgeEvaluator:
                 self.local_adapter_paths[adapter_type],
                 adapter_name="local"
             )
-            # Activate both adapters
-            model.set_adapter(["global", "local"])
+            # Activate both adapters (set them individually, not as a list)
+            model.set_adapter("local")  # Local adapter takes precedence
             system_prompt = self.system_prompts[adapter_type]
             logging.info(f"Loaded global + {adapter_type} local adapter")
         
