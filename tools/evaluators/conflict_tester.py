@@ -451,20 +451,29 @@ class ConflictTester:
         for adapter_name, adapter_path in local_adapter_paths.items():
             logging.info(f"\nProcessing with '{adapter_name}' adapter...")
             
-            # Load adapter once
-            lora_config = get_lora_config()
-            dual_model = DualAdapterModel(self.base_model, lora_config)
-            dual_model.add_global_adapter(
-                adapter_name="global",
-                adapter_path=self.global_adapter_path
-            )
-            dual_model.add_local_adapter(
-                adapter_name="local",
-                adapter_path=adapter_path
-            )
-            dual_model.set_active_adapters(["global", "local"])
+            # Load adapter using PeftModel directly (avoids config mismatch)
+            from peft import PeftModel
+            import gc
             
-            model = dual_model.get_model()
+            # Clear cache
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            gc.collect()
+            
+            # Load global adapter first
+            model = PeftModel.from_pretrained(
+                self.base_model,
+                self.global_adapter_path,
+                adapter_name="global",
+                is_trainable=False
+            )
+            # Load local adapter
+            model.load_adapter(
+                adapter_path,
+                adapter_name="local"
+            )
+            # Set local adapter as active
+            model.set_adapter("local")
             model.eval()
             
             system_prompt = system_prompts.get(adapter_name, '')
